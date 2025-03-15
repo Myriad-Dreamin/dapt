@@ -40,9 +40,22 @@ pub struct Request {
     /// to cancel the request.
     pub seq: i64,
     /// The command to execute.
+    pub command: String,
+    /// The command to execute.
     #[serde(default = "serde_json::Value::default")]
     #[serde(skip_serializing_if = "serde_json::Value::is_null")]
-    pub command: serde_json::Value,
+    pub arguments: serde_json::Value,
+}
+
+impl Request {
+    /// Creates a new request.
+    pub fn new(seq: i64, command: String, arguments: impl serde::Serialize) -> Request {
+        Request {
+            seq,
+            command,
+            arguments: serde_json::to_value(arguments).unwrap(),
+        }
+    }
 }
 
 /// Represents response to the client.
@@ -83,6 +96,43 @@ pub struct Response {
     pub body: Option<serde_json::Value>,
 }
 
+impl Response {
+    /// Creates a new response.
+    pub fn new(
+        request_seq: i64,
+        success: bool,
+        message: Option<impl serde::Serialize>,
+        body: Option<impl serde::Serialize>,
+    ) -> Response {
+        Response {
+            request_seq,
+            success,
+            message: message.map(|m| serde_json::to_value(m).unwrap()),
+            body: body.map(|b| serde_json::to_value(b).unwrap()),
+        }
+    }
+
+    /// Creates a new successful response.
+    pub fn success(request_seq: i64, body: impl serde::Serialize) -> Response {
+        Response {
+            request_seq,
+            success: true,
+            message: None,
+            body: Some(serde_json::to_value(body).unwrap()),
+        }
+    }
+
+    /// Creates a new error response.
+    pub fn error(request_seq: i64, message: impl serde::Serialize, body: Option<impl serde::Serialize>) -> Response {
+        Response {
+            request_seq,
+            success: false,
+            message: Some(serde_json::to_value(message).unwrap()),
+            body: body.map(|b| serde_json::to_value(b).unwrap()),
+        }
+    }
+}
+
 /// Represents an event from the client.
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Event {
@@ -99,13 +149,22 @@ pub struct Event {
     /// to cancel the request.
     pub seq: i64,
     /// Type of event.
-    #[serde(default = "serde_json::Value::default")]
-    #[serde(skip_serializing_if = "serde_json::Value::is_null")]
-    pub event: serde_json::Value,
+    pub event: String,
     /// Event-specific information.
     #[serde(default = "serde_json::Value::default")]
     #[serde(skip_serializing_if = "serde_json::Value::is_null")]
     pub body: serde_json::Value,
+}
+
+impl Event {
+    /// Creates a new event.
+    pub fn new(seq: i64, event: String, body: impl serde::Serialize) -> Event {
+        Event {
+            seq,
+            event,
+            body: serde_json::to_value(body).unwrap(),
+        }
+    }
 }
 
 #[cfg(test)]
