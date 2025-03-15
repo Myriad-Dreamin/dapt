@@ -18,8 +18,8 @@ fn main() {
     } = gen();
 
     write_file("types.rs", &types);
-    write_file("requests.rs", &requests);
-    write_file("events.rs", &events);
+    write_file("request.rs", &requests);
+    write_file("event.rs", &events);
 }
 
 struct GenResult {
@@ -755,8 +755,8 @@ mod tests {
         } = gen();
 
         check_file("types.rs", &types);
-        check_file("requests.rs", &requests);
-        check_file("events.rs", &events);
+        check_file("request.rs", &requests);
+        check_file("event.rs", &events);
     }
 
     #[cfg(not(unix))]

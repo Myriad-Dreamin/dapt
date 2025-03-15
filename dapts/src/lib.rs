@@ -2,8 +2,8 @@
 #![allow(rustdoc::bare_urls)]
 #![allow(rustdoc::invalid_html_tags)]
 
-pub mod events;
-pub mod requests;
+pub mod event;
+pub mod request;
 mod types;
 
 pub use crate::types::*;
