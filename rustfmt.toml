@@ -1,0 +1,2 @@
+max_width = 120
+ignore = ["dapt/src/events.rs", "dapt/src/requests.rs", "dapt/src/types.rs"]
