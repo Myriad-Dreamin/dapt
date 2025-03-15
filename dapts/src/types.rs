@@ -144,7 +144,7 @@ pub struct BreakpointLocationsArguments {
 
 /// Response to `breakpointLocations` request.
 /// Contains possible locations for source breakpoints.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BreakpointLocationsResponse {
     /// Sorted set of possible breakpoint locations.
@@ -198,7 +198,7 @@ pub struct CancelArguments {
 }
 
 /// Information about the capabilities of a debug adapter.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Capabilities {
     /// The set of additional module information exposed by the debug adapter.
@@ -474,7 +474,7 @@ pub struct CompletionsArguments {
 }
 
 /// Response to `completions` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionsResponse {
     /// The possible completions for .
@@ -497,7 +497,7 @@ pub struct ContinueArguments {
 }
 
 /// Response to `continue` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ContinueResponse {
     /// If omitted or set to `true`, this response signals to the client that all threads have been resumed. The value `false` indicates that not all threads were resumed.
@@ -575,7 +575,7 @@ pub struct DataBreakpointInfoArguments {
 }
 
 /// Response to `dataBreakpointInfo` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DataBreakpointInfoResponse {
     /// Attribute lists the available access types for a potential data breakpoint. A UI client could surface this information.
@@ -611,7 +611,7 @@ pub struct DisassembleArguments {
 }
 
 /// Response to `disassemble` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DisassembleResponse {
     /// The list of disassembled instructions.
@@ -688,7 +688,7 @@ pub struct DisconnectArguments {
 }
 
 /// On error (whenever `success` is false), the body can provide more details.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ErrorResponse {
     /// A structured error message.
@@ -747,7 +747,7 @@ pub enum EvaluateArgumentsContext {
 }
 
 /// Response to `evaluate` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EvaluateResponse {
     /// The number of indexed child variables.
@@ -981,7 +981,7 @@ pub struct GotoTargetsArguments {
 }
 
 /// Response to `gotoTargets` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GotoTargetsResponse {
     /// The possible goto targets of the specified location.
@@ -989,7 +989,7 @@ pub struct GotoTargetsResponse {
 }
 
 /// Arguments for `initialize` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct InitializeRequestArguments {
     /// The ID of the debug adapter.
@@ -1141,7 +1141,7 @@ pub enum LoadedSourceEventReason {
 pub struct LoadedSourcesArguments;
 
 /// Response to `loadedSources` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LoadedSourcesResponse {
     /// Set of loaded sources.
@@ -1157,7 +1157,7 @@ pub struct LocationsArguments {
 }
 
 /// Response to `locations` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LocationsResponse {
     /// Position of the location within the `line`. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based. If no column is given, the first position in the start line is assumed.
@@ -1287,7 +1287,7 @@ pub struct ModulesArguments {
 }
 
 /// Response to `modules` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ModulesResponse {
     /// All modules or range of modules.
@@ -1493,7 +1493,7 @@ pub struct ReadMemoryArguments {
 }
 
 /// Response to `readMemory` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ReadMemoryResponse {
     /// The address of the first byte of data returned.
@@ -1558,7 +1558,7 @@ pub enum RunInTerminalRequestArgumentsKind {
 }
 
 /// Response to `runInTerminal` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RunInTerminalResponse {
     /// The process ID. The value should be less than or equal to 2147483647 (2^31-1).
@@ -1633,7 +1633,7 @@ pub struct ScopesArguments {
 }
 
 /// Response to `scopes` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ScopesResponse {
     /// The scopes of the stack frame. If the array has length zero, there are no scopes available.
@@ -1662,7 +1662,7 @@ pub struct SetBreakpointsArguments {
 /// This includes the actual code location and whether the breakpoint could be verified.
 /// The breakpoints returned are in the same order as the elements of the `breakpoints`
 /// (or the deprecated `lines`) array in the arguments.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetBreakpointsResponse {
     /// Information about the breakpoints.
@@ -1680,7 +1680,7 @@ pub struct SetDataBreakpointsArguments {
 
 /// Response to `setDataBreakpoints` request.
 /// Returned is information about each breakpoint created by this request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetDataBreakpointsResponse {
     /// Information about the data breakpoints. The array elements correspond to the elements of the input argument `breakpoints` array.
@@ -1706,7 +1706,7 @@ pub struct SetExceptionBreakpointsArguments {
 /// The response contains an array of `Breakpoint` objects with information about each exception breakpoint or filter. The `Breakpoint` objects are in the same order as the elements of the `filters`, `filterOptions`, `exceptionOptions` arrays given as arguments. If both `filters` and `filterOptions` are given, the returned array must start with `filters` information first, followed by `filterOptions` information.
 /// The `verified` property of a `Breakpoint` object signals whether the exception breakpoint or filter could be successfully created and whether the condition is valid. In case of an error the `message` property explains the problem. The `id` property can be used to introduce a unique ID for the exception breakpoint or filter so that it can be updated subsequently by sending breakpoint events.
 /// For backward compatibility both the `breakpoints` array and the enclosing `body` are optional. If these elements are missing a client is not able to show problems for individual exception breakpoints or filters.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetExceptionBreakpointsResponse {
     /// Information about the exception breakpoints or filters.
@@ -1732,7 +1732,7 @@ pub struct SetExpressionArguments {
 }
 
 /// Response to `setExpression` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetExpressionResponse {
     /// The number of indexed child variables.
@@ -1780,7 +1780,7 @@ pub struct SetFunctionBreakpointsArguments {
 
 /// Response to `setFunctionBreakpoints` request.
 /// Returned is information about each breakpoint created by this request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetFunctionBreakpointsResponse {
     /// Information about the breakpoints. The array elements correspond to the elements of the `breakpoints` array.
@@ -1796,7 +1796,7 @@ pub struct SetInstructionBreakpointsArguments {
 }
 
 /// Response to `setInstructionBreakpoints` request
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetInstructionBreakpointsResponse {
     /// Information about the breakpoints. The array elements correspond to the elements of the `breakpoints` array.
@@ -1819,7 +1819,7 @@ pub struct SetVariableArguments {
 }
 
 /// Response to `setVariable` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SetVariableResponse {
     /// The number of indexed child variables.
@@ -1857,7 +1857,7 @@ pub struct SetVariableResponse {
 
 /// A `Source` is a descriptor for source code.
 /// It is returned from the debug adapter as part of a `StackFrame` and it is used by clients when specifying breakpoints.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Source {
     /// Additional data that a debug adapter might want to loop through the client.
@@ -1947,7 +1947,7 @@ pub struct SourceBreakpoint {
 }
 
 /// Response to `source` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SourceResponse {
     /// Content of the source reference.
@@ -2057,7 +2057,7 @@ pub struct StackTraceArguments {
 }
 
 /// Response to `stackTrace` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct StackTraceResponse {
     /// The frames of the stack frame. If the array has length zero, there are no stack frames available.
@@ -2148,7 +2148,7 @@ pub struct StepInTargetsArguments {
 }
 
 /// Response to `stepInTargets` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct StepInTargetsResponse {
     /// The possible step-in targets of the specified source location.
@@ -2298,7 +2298,7 @@ pub enum ThreadEventReason {
 }
 
 /// Response to `threads` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ThreadsResponse {
     /// All threads.
@@ -2490,7 +2490,7 @@ pub enum VariablesArgumentsFilter {
 }
 
 /// Response to `variables` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct VariablesResponse {
     /// All (or a range) of variables for the given variable reference.
@@ -2515,7 +2515,7 @@ pub struct WriteMemoryArguments {
 }
 
 /// Response to `writeMemory` request.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WriteMemoryResponse {
     /// Property that should be returned when `allowPartial` is true to indicate the number of bytes starting from address that were successfully written.

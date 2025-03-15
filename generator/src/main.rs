@@ -71,6 +71,8 @@ const BLACKLISTED_TYPES: &[&str] = &[
     "AttachRequestArguments",
 ];
 
+const DERIVE_DEFAULT_TYPES: &[&str] = &["InitializeRequestArguments", "Capabilities", "Source"];
+
 fn write_requests(types: &[ProtocolType]) -> String {
     let mut writer = Writer::default();
     writer.line("#![allow(clippy::doc_lazy_continuation)]");
@@ -362,6 +364,10 @@ fn translate_type(defs: &Map<String, Value>, t: &Value) -> Type {
     }
 }
 
+fn can_derive_default(ty: &str) -> bool {
+    (ty.ends_with("Response") && ty != "ExceptionInfoResponse") || DERIVE_DEFAULT_TYPES.contains(&ty)
+}
+
 fn is_any(t: &Value) -> bool {
     is_enum_of(t, ["array", "boolean", "integer", "null", "number", "object", "string"])
 }
@@ -575,7 +581,13 @@ impl Object {
         if let Some(doc) = &self.doc {
             dst.doc(doc);
         }
-        dst.line("#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]");
+        let derivings = if can_derive_default(name) {
+            "Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize"
+        } else {
+            "Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize"
+        };
+
+        dst.line(format!("#[derive({derivings})]"));
         let mut pending = Vec::new();
         if self.fields.is_empty() {
             dst.line(format!("pub struct {name};"));

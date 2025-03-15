@@ -14,5 +14,5 @@ To update scheme, check [assets](./assets/README.md).
 To generate again, run:
 
 ```bash
-cargo run
+cargo run -p generator
 ```
