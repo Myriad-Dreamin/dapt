@@ -77,7 +77,7 @@ fn write_requests(types: &[ProtocolType]) -> String {
     let mut writer = Writer::default();
     writer.line("#![allow(clippy::doc_lazy_continuation)]");
     writer.line("");
-    writer.line("pub use crate::Request;");
+    writer.line("pub use crate::IRequest;");
     writer.finished_object();
     for ty in types {
         let Type::Object(o) = &ty.ty else {
@@ -114,7 +114,7 @@ fn write_requests(types: &[ProtocolType]) -> String {
         ));
         writer.line(format!("pub enum {request} {{}}"));
         writer.finished_object();
-        writer.line(format!("impl Request for {request} {{"));
+        writer.line(format!("impl IRequest for {request} {{"));
         writer.indented(format!("const COMMAND: &'static str = {command:?};"));
         writer.indented(format!("type Arguments = {arguments};"));
         writer.indented(format!("type Response = {response_body};"));
@@ -126,7 +126,7 @@ fn write_requests(types: &[ProtocolType]) -> String {
 
 fn write_events(types: &[ProtocolType]) -> String {
     let mut writer = Writer::default();
-    writer.line("pub use crate::Event;");
+    writer.line("pub use crate::IEvent;");
     writer.finished_object();
     for ty in types {
         let Type::Object(o) = &ty.ty else {
@@ -159,7 +159,7 @@ fn write_events(types: &[ProtocolType]) -> String {
         writer.line(format!("{DOC_CONT}See [{event}Event]({SPEC_URL}#Events_{event})"));
         writer.line(format!("pub enum {event} {{}}"));
         writer.finished_object();
-        writer.line(format!("impl Event for {event} {{"));
+        writer.line(format!("impl IEvent for {event} {{"));
         writer.indented(format!("const EVENT: &'static str = {name:?};"));
         writer.indented(format!("type Body = {body};"));
         writer.line("}");

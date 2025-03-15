@@ -3,7 +3,7 @@
 
 #![allow(clippy::doc_lazy_continuation)]
 
-pub use crate::Request;
+pub use crate::IRequest;
 
 /// The `attach` request is sent from the client to the debug adapter to attach to a debuggee that is already running.
 /// Since attaching is debugger/runtime specific, the arguments for this request are not part of this specification.
@@ -11,7 +11,7 @@ pub use crate::Request;
 /// See [AttachRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Attach)
 pub enum Attach {}
 
-impl Request for Attach {
+impl IRequest for Attach {
     const COMMAND: &'static str = "attach";
     type Arguments = crate::AttachRequestArguments;
     type Response = ();
@@ -23,7 +23,7 @@ impl Request for Attach {
 /// See [BreakpointLocationsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_BreakpointLocations)
 pub enum BreakpointLocations {}
 
-impl Request for BreakpointLocations {
+impl IRequest for BreakpointLocations {
     const COMMAND: &'static str = "breakpointLocations";
     type Arguments = crate::BreakpointLocationsArguments;
     type Response = crate::BreakpointLocationsResponse;
@@ -43,7 +43,7 @@ impl Request for BreakpointLocations {
 /// See [CancelRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Cancel)
 pub enum Cancel {}
 
-impl Request for Cancel {
+impl IRequest for Cancel {
     const COMMAND: &'static str = "cancel";
     type Arguments = crate::CancelArguments;
     type Response = ();
@@ -55,7 +55,7 @@ impl Request for Cancel {
 /// See [CompletionsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Completions)
 pub enum Completions {}
 
-impl Request for Completions {
+impl IRequest for Completions {
     const COMMAND: &'static str = "completions";
     type Arguments = crate::CompletionsArguments;
     type Response = crate::CompletionsResponse;
@@ -68,7 +68,7 @@ impl Request for Completions {
 /// See [ConfigurationDoneRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ConfigurationDone)
 pub enum ConfigurationDone {}
 
-impl Request for ConfigurationDone {
+impl IRequest for ConfigurationDone {
     const COMMAND: &'static str = "configurationDone";
     type Arguments = crate::ConfigurationDoneArguments;
     type Response = ();
@@ -79,7 +79,7 @@ impl Request for ConfigurationDone {
 /// See [ContinueRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Continue)
 pub enum Continue {}
 
-impl Request for Continue {
+impl IRequest for Continue {
     const COMMAND: &'static str = "continue";
     type Arguments = crate::ContinueArguments;
     type Response = crate::ContinueResponse;
@@ -91,7 +91,7 @@ impl Request for Continue {
 /// See [DataBreakpointInfoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_DataBreakpointInfo)
 pub enum DataBreakpointInfo {}
 
-impl Request for DataBreakpointInfo {
+impl IRequest for DataBreakpointInfo {
     const COMMAND: &'static str = "dataBreakpointInfo";
     type Arguments = crate::DataBreakpointInfoArguments;
     type Response = crate::DataBreakpointInfoResponse;
@@ -103,7 +103,7 @@ impl Request for DataBreakpointInfo {
 /// See [DisassembleRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Disassemble)
 pub enum Disassemble {}
 
-impl Request for Disassemble {
+impl IRequest for Disassemble {
     const COMMAND: &'static str = "disassemble";
     type Arguments = crate::DisassembleArguments;
     type Response = crate::DisassembleResponse;
@@ -116,7 +116,7 @@ impl Request for Disassemble {
 /// See [DisconnectRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Disconnect)
 pub enum Disconnect {}
 
-impl Request for Disconnect {
+impl IRequest for Disconnect {
     const COMMAND: &'static str = "disconnect";
     type Arguments = crate::DisconnectArguments;
     type Response = ();
@@ -128,7 +128,7 @@ impl Request for Disconnect {
 /// See [EvaluateRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Evaluate)
 pub enum Evaluate {}
 
-impl Request for Evaluate {
+impl IRequest for Evaluate {
     const COMMAND: &'static str = "evaluate";
     type Arguments = crate::EvaluateArguments;
     type Response = crate::EvaluateResponse;
@@ -140,7 +140,7 @@ impl Request for Evaluate {
 /// See [ExceptionInfoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ExceptionInfo)
 pub enum ExceptionInfo {}
 
-impl Request for ExceptionInfo {
+impl IRequest for ExceptionInfo {
     const COMMAND: &'static str = "exceptionInfo";
     type Arguments = crate::ExceptionInfoArguments;
     type Response = crate::ExceptionInfoResponse;
@@ -155,7 +155,7 @@ impl Request for ExceptionInfo {
 /// See [GotoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Goto)
 pub enum Goto {}
 
-impl Request for Goto {
+impl IRequest for Goto {
     const COMMAND: &'static str = "goto";
     type Arguments = crate::GotoArguments;
     type Response = ();
@@ -168,7 +168,7 @@ impl Request for Goto {
 /// See [GotoTargetsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_GotoTargets)
 pub enum GotoTargets {}
 
-impl Request for GotoTargets {
+impl IRequest for GotoTargets {
     const COMMAND: &'static str = "gotoTargets";
     type Arguments = crate::GotoTargetsArguments;
     type Response = crate::GotoTargetsResponse;
@@ -182,7 +182,7 @@ impl Request for GotoTargets {
 /// See [InitializeRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Initialize)
 pub enum Initialize {}
 
-impl Request for Initialize {
+impl IRequest for Initialize {
     const COMMAND: &'static str = "initialize";
     type Arguments = crate::InitializeRequestArguments;
     type Response = crate::Capabilities;
@@ -194,7 +194,7 @@ impl Request for Initialize {
 /// See [LaunchRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Launch)
 pub enum Launch {}
 
-impl Request for Launch {
+impl IRequest for Launch {
     const COMMAND: &'static str = "launch";
     type Arguments = crate::LaunchRequestArguments;
     type Response = ();
@@ -206,7 +206,7 @@ impl Request for Launch {
 /// See [LoadedSourcesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_LoadedSources)
 pub enum LoadedSources {}
 
-impl Request for LoadedSources {
+impl IRequest for LoadedSources {
     const COMMAND: &'static str = "loadedSources";
     type Arguments = crate::LoadedSourcesArguments;
     type Response = crate::LoadedSourcesResponse;
@@ -217,7 +217,7 @@ impl Request for LoadedSources {
 /// See [LocationsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Locations)
 pub enum Locations {}
 
-impl Request for Locations {
+impl IRequest for Locations {
     const COMMAND: &'static str = "locations";
     type Arguments = crate::LocationsArguments;
     type Response = crate::LocationsResponse;
@@ -229,7 +229,7 @@ impl Request for Locations {
 /// See [ModulesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Modules)
 pub enum Modules {}
 
-impl Request for Modules {
+impl IRequest for Modules {
     const COMMAND: &'static str = "modules";
     type Arguments = crate::ModulesArguments;
     type Response = crate::ModulesResponse;
@@ -242,7 +242,7 @@ impl Request for Modules {
 /// See [NextRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Next)
 pub enum Next {}
 
-impl Request for Next {
+impl IRequest for Next {
     const COMMAND: &'static str = "next";
     type Arguments = crate::NextArguments;
     type Response = ();
@@ -254,7 +254,7 @@ impl Request for Next {
 /// See [PauseRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Pause)
 pub enum Pause {}
 
-impl Request for Pause {
+impl IRequest for Pause {
     const COMMAND: &'static str = "pause";
     type Arguments = crate::PauseArguments;
     type Response = ();
@@ -266,7 +266,7 @@ impl Request for Pause {
 /// See [ReadMemoryRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ReadMemory)
 pub enum ReadMemory {}
 
-impl Request for ReadMemory {
+impl IRequest for ReadMemory {
     const COMMAND: &'static str = "readMemory";
     type Arguments = crate::ReadMemoryArguments;
     type Response = crate::ReadMemoryResponse;
@@ -279,7 +279,7 @@ impl Request for ReadMemory {
 /// See [RestartFrameRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_RestartFrame)
 pub enum RestartFrame {}
 
-impl Request for RestartFrame {
+impl IRequest for RestartFrame {
     const COMMAND: &'static str = "restartFrame";
     type Arguments = crate::RestartFrameArguments;
     type Response = ();
@@ -291,7 +291,7 @@ impl Request for RestartFrame {
 /// See [RestartRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Restart)
 pub enum Restart {}
 
-impl Request for Restart {
+impl IRequest for Restart {
     const COMMAND: &'static str = "restart";
     type Arguments = crate::RestartArguments;
     type Response = ();
@@ -303,7 +303,7 @@ impl Request for Restart {
 /// See [ReverseContinueRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ReverseContinue)
 pub enum ReverseContinue {}
 
-impl Request for ReverseContinue {
+impl IRequest for ReverseContinue {
     const COMMAND: &'static str = "reverseContinue";
     type Arguments = crate::ReverseContinueArguments;
     type Response = ();
@@ -318,7 +318,7 @@ impl Request for ReverseContinue {
 /// See [RunInTerminalRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_RunInTerminal)
 pub enum RunInTerminal {}
 
-impl Request for RunInTerminal {
+impl IRequest for RunInTerminal {
     const COMMAND: &'static str = "runInTerminal";
     type Arguments = crate::RunInTerminalRequestArguments;
     type Response = crate::RunInTerminalResponse;
@@ -329,7 +329,7 @@ impl Request for RunInTerminal {
 /// See [ScopesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Scopes)
 pub enum Scopes {}
 
-impl Request for Scopes {
+impl IRequest for Scopes {
     const COMMAND: &'static str = "scopes";
     type Arguments = crate::ScopesArguments;
     type Response = crate::ScopesResponse;
@@ -342,7 +342,7 @@ impl Request for Scopes {
 /// See [SetBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetBreakpoints)
 pub enum SetBreakpoints {}
 
-impl Request for SetBreakpoints {
+impl IRequest for SetBreakpoints {
     const COMMAND: &'static str = "setBreakpoints";
     type Arguments = crate::SetBreakpointsArguments;
     type Response = crate::SetBreakpointsResponse;
@@ -356,7 +356,7 @@ impl Request for SetBreakpoints {
 /// See [SetDataBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetDataBreakpoints)
 pub enum SetDataBreakpoints {}
 
-impl Request for SetDataBreakpoints {
+impl IRequest for SetDataBreakpoints {
     const COMMAND: &'static str = "setDataBreakpoints";
     type Arguments = crate::SetDataBreakpointsArguments;
     type Response = crate::SetDataBreakpointsResponse;
@@ -368,7 +368,7 @@ impl Request for SetDataBreakpoints {
 /// See [SetExceptionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetExceptionBreakpoints)
 pub enum SetExceptionBreakpoints {}
 
-impl Request for SetExceptionBreakpoints {
+impl IRequest for SetExceptionBreakpoints {
     const COMMAND: &'static str = "setExceptionBreakpoints";
     type Arguments = crate::SetExceptionBreakpointsArguments;
     type Response = crate::SetExceptionBreakpointsResponse;
@@ -382,7 +382,7 @@ impl Request for SetExceptionBreakpoints {
 /// See [SetExpressionRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetExpression)
 pub enum SetExpression {}
 
-impl Request for SetExpression {
+impl IRequest for SetExpression {
     const COMMAND: &'static str = "setExpression";
     type Arguments = crate::SetExpressionArguments;
     type Response = crate::SetExpressionResponse;
@@ -396,7 +396,7 @@ impl Request for SetExpression {
 /// See [SetFunctionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetFunctionBreakpoints)
 pub enum SetFunctionBreakpoints {}
 
-impl Request for SetFunctionBreakpoints {
+impl IRequest for SetFunctionBreakpoints {
     const COMMAND: &'static str = "setFunctionBreakpoints";
     type Arguments = crate::SetFunctionBreakpointsArguments;
     type Response = crate::SetFunctionBreakpointsResponse;
@@ -410,7 +410,7 @@ impl Request for SetFunctionBreakpoints {
 /// See [SetInstructionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetInstructionBreakpoints)
 pub enum SetInstructionBreakpoints {}
 
-impl Request for SetInstructionBreakpoints {
+impl IRequest for SetInstructionBreakpoints {
     const COMMAND: &'static str = "setInstructionBreakpoints";
     type Arguments = crate::SetInstructionBreakpointsArguments;
     type Response = crate::SetInstructionBreakpointsResponse;
@@ -422,7 +422,7 @@ impl Request for SetInstructionBreakpoints {
 /// See [SetVariableRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetVariable)
 pub enum SetVariable {}
 
-impl Request for SetVariable {
+impl IRequest for SetVariable {
     const COMMAND: &'static str = "setVariable";
     type Arguments = crate::SetVariableArguments;
     type Response = crate::SetVariableResponse;
@@ -433,7 +433,7 @@ impl Request for SetVariable {
 /// See [SourceRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Source)
 pub enum Source {}
 
-impl Request for Source {
+impl IRequest for Source {
     const COMMAND: &'static str = "source";
     type Arguments = crate::SourceArguments;
     type Response = crate::SourceResponse;
@@ -445,7 +445,7 @@ impl Request for Source {
 /// See [StackTraceRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StackTrace)
 pub enum StackTrace {}
 
-impl Request for StackTrace {
+impl IRequest for StackTrace {
     const COMMAND: &'static str = "stackTrace";
     type Arguments = crate::StackTraceArguments;
     type Response = crate::StackTraceResponse;
@@ -458,7 +458,7 @@ impl Request for StackTrace {
 /// See [StartDebuggingRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StartDebugging)
 pub enum StartDebugging {}
 
-impl Request for StartDebugging {
+impl IRequest for StartDebugging {
     const COMMAND: &'static str = "startDebugging";
     type Arguments = crate::StartDebuggingRequestArguments;
     type Response = ();
@@ -472,7 +472,7 @@ impl Request for StartDebugging {
 /// See [StepBackRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepBack)
 pub enum StepBack {}
 
-impl Request for StepBack {
+impl IRequest for StepBack {
     const COMMAND: &'static str = "stepBack";
     type Arguments = crate::StepBackArguments;
     type Response = ();
@@ -489,7 +489,7 @@ impl Request for StepBack {
 /// See [StepInRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepIn)
 pub enum StepIn {}
 
-impl Request for StepIn {
+impl IRequest for StepIn {
     const COMMAND: &'static str = "stepIn";
     type Arguments = crate::StepInArguments;
     type Response = ();
@@ -502,7 +502,7 @@ impl Request for StepIn {
 /// See [StepInTargetsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepInTargets)
 pub enum StepInTargets {}
 
-impl Request for StepInTargets {
+impl IRequest for StepInTargets {
     const COMMAND: &'static str = "stepInTargets";
     type Arguments = crate::StepInTargetsArguments;
     type Response = crate::StepInTargetsResponse;
@@ -515,7 +515,7 @@ impl Request for StepInTargets {
 /// See [StepOutRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepOut)
 pub enum StepOut {}
 
-impl Request for StepOut {
+impl IRequest for StepOut {
     const COMMAND: &'static str = "stepOut";
     type Arguments = crate::StepOutArguments;
     type Response = ();
@@ -529,7 +529,7 @@ impl Request for StepOut {
 /// See [TerminateRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Terminate)
 pub enum Terminate {}
 
-impl Request for Terminate {
+impl IRequest for Terminate {
     const COMMAND: &'static str = "terminate";
     type Arguments = crate::TerminateArguments;
     type Response = ();
@@ -541,7 +541,7 @@ impl Request for Terminate {
 /// See [TerminateThreadsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_TerminateThreads)
 pub enum TerminateThreads {}
 
-impl Request for TerminateThreads {
+impl IRequest for TerminateThreads {
     const COMMAND: &'static str = "terminateThreads";
     type Arguments = crate::TerminateThreadsArguments;
     type Response = ();
@@ -552,7 +552,7 @@ impl Request for TerminateThreads {
 /// See [ThreadsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Threads)
 pub enum Threads {}
 
-impl Request for Threads {
+impl IRequest for Threads {
     const COMMAND: &'static str = "threads";
     type Arguments = ();
     type Response = crate::ThreadsResponse;
@@ -564,7 +564,7 @@ impl Request for Threads {
 /// See [VariablesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Variables)
 pub enum Variables {}
 
-impl Request for Variables {
+impl IRequest for Variables {
     const COMMAND: &'static str = "variables";
     type Arguments = crate::VariablesArguments;
     type Response = crate::VariablesResponse;
@@ -576,7 +576,7 @@ impl Request for Variables {
 /// See [WriteMemoryRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_WriteMemory)
 pub enum WriteMemory {}
 
-impl Request for WriteMemory {
+impl IRequest for WriteMemory {
     const COMMAND: &'static str = "writeMemory";
     type Arguments = crate::WriteMemoryArguments;
     type Response = crate::WriteMemoryResponse;
