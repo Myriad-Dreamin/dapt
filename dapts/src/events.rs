@@ -5,7 +5,7 @@ pub use crate::Event;
 
 /// The event indicates that some information about a breakpoint has changed.
 ///
- /// See [BreakpointEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Breakpoint)
+/// See [BreakpointEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Breakpoint)
 pub enum Breakpoint {}
 
 impl Event for Breakpoint {
@@ -18,7 +18,7 @@ impl Event for Breakpoint {
 /// Consequently this event has a hint characteristic: a client can only be expected to make a 'best effort' in honoring individual capabilities but there are no guarantees.
 /// Only changed capabilities need to be included, all other capabilities keep their values.
 ///
- /// See [CapabilitiesEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Capabilities)
+/// See [CapabilitiesEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Capabilities)
 pub enum Capabilities {}
 
 impl Event for Capabilities {
@@ -30,7 +30,7 @@ impl Event for Capabilities {
 /// Please note: a debug adapter is not expected to send this event in response to a request that implies that execution continues, e.g. `launch` or `continue`.
 /// It is only necessary to send a `continued` event if there was no previous request that implied this.
 ///
- /// See [ContinuedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Continued)
+/// See [ContinuedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Continued)
 pub enum Continued {}
 
 impl Event for Continued {
@@ -40,7 +40,7 @@ impl Event for Continued {
 
 /// The event indicates that the debuggee has exited and returns its exit code.
 ///
- /// See [ExitedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Exited)
+/// See [ExitedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Exited)
 pub enum Exited {}
 
 impl Event for Exited {
@@ -58,7 +58,7 @@ impl Event for Exited {
 /// - client sends other future configuration requests
 /// - client sends one `configurationDone` request to indicate the end of the configuration.
 ///
- /// See [InitializedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Initialized)
+/// See [InitializedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Initialized)
 pub enum Initialized {}
 
 impl Event for Initialized {
@@ -70,7 +70,7 @@ impl Event for Initialized {
 /// Debug adapters do not have to emit this event for runtime changes like stopped or thread events because in that case the client refetches the new state anyway. But the event can be used for example to refresh the UI after rendering formatting has changed in the debug adapter.
 /// This event should only be sent if the corresponding capability `supportsInvalidatedEvent` is true.
 ///
- /// See [InvalidatedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Invalidated)
+/// See [InvalidatedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Invalidated)
 pub enum Invalidated {}
 
 impl Event for Invalidated {
@@ -80,7 +80,7 @@ impl Event for Invalidated {
 
 /// The event indicates that some source has been added, changed, or removed from the set of all loaded sources.
 ///
- /// See [LoadedSourceEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_LoadedSource)
+/// See [LoadedSourceEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_LoadedSource)
 pub enum LoadedSource {}
 
 impl Event for LoadedSource {
@@ -92,7 +92,7 @@ impl Event for LoadedSource {
 /// Clients typically react to the event by re-issuing a `readMemory` request if they show the memory identified by the `memoryReference` and if the updated memory range overlaps the displayed range. Clients should not make assumptions how individual memory references relate to each other, so they should not assume that they are part of a single continuous address range and might overlap.
 /// Debug adapters can use this event to indicate that the contents of a memory range has changed due to some other request like `setVariable` or `setExpression`. Debug adapters are not expected to emit this event for each and every memory change of a running program, because that information is typically not available from debuggers and it would flood clients with too many events.
 ///
- /// See [MemoryEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Memory)
+/// See [MemoryEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Memory)
 pub enum Memory {}
 
 impl Event for Memory {
@@ -102,7 +102,7 @@ impl Event for Memory {
 
 /// The event indicates that some information about a module has changed.
 ///
- /// See [ModuleEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Module)
+/// See [ModuleEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Module)
 pub enum Module {}
 
 impl Event for Module {
@@ -112,7 +112,7 @@ impl Event for Module {
 
 /// The event indicates that the target has produced some output.
 ///
- /// See [OutputEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Output)
+/// See [OutputEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Output)
 pub enum Output {}
 
 impl Event for Output {
@@ -122,7 +122,7 @@ impl Event for Output {
 
 /// The event indicates that the debugger has begun debugging a new process. Either one that it has launched, or one that it has attached to.
 ///
- /// See [ProcessEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Process)
+/// See [ProcessEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Process)
 pub enum Process {}
 
 impl Event for Process {
@@ -133,7 +133,7 @@ impl Event for Process {
 /// The event signals the end of the progress reporting with a final message.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
 ///
- /// See [ProgressEndEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressEnd)
+/// See [ProgressEndEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressEnd)
 pub enum ProgressEnd {}
 
 impl Event for ProgressEnd {
@@ -145,7 +145,7 @@ impl Event for ProgressEnd {
 /// The client is free to delay the showing of the UI in order to reduce flicker.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
 ///
- /// See [ProgressStartEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressStart)
+/// See [ProgressStartEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressStart)
 pub enum ProgressStart {}
 
 impl Event for ProgressStart {
@@ -157,7 +157,7 @@ impl Event for ProgressStart {
 /// The client does not have to update the UI immediately, but the clients needs to keep track of the message and/or percentage values.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
 ///
- /// See [ProgressUpdateEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressUpdate)
+/// See [ProgressUpdateEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_ProgressUpdate)
 pub enum ProgressUpdate {}
 
 impl Event for ProgressUpdate {
@@ -168,7 +168,7 @@ impl Event for ProgressUpdate {
 /// The event indicates that the execution of the debuggee has stopped due to some condition.
 /// This can be caused by a breakpoint previously set, a stepping request has completed, by executing a debugger statement etc.
 ///
- /// See [StoppedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Stopped)
+/// See [StoppedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Stopped)
 pub enum Stopped {}
 
 impl Event for Stopped {
@@ -178,7 +178,7 @@ impl Event for Stopped {
 
 /// The event indicates that debugging of the debuggee has terminated. This does **not** mean that the debuggee itself has exited.
 ///
- /// See [TerminatedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Terminated)
+/// See [TerminatedEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Terminated)
 pub enum Terminated {}
 
 impl Event for Terminated {
@@ -188,7 +188,7 @@ impl Event for Terminated {
 
 /// The event indicates that a thread has started or exited.
 ///
- /// See [ThreadEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Thread)
+/// See [ThreadEvent](https://microsoft.github.io/debug-adapter-protocol/specification#Events_Thread)
 pub enum Thread {}
 
 impl Event for Thread {

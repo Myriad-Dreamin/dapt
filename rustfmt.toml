@@ -1,2 +1,1 @@
 max_width = 120
-ignore = ["dapts/src/events.rs", "dapts/src/requests.rs", "dapts/src/types.rs"]

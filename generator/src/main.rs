@@ -8,7 +8,7 @@ use serde_json::{Map, Value};
 mod case;
 
 const SPEC_URL: &str = "https://microsoft.github.io/debug-adapter-protocol/specification";
-const DOC_CONT: &str = "///\n /// ";
+const DOC_CONT: &str = "/// \n/// ";
 
 fn main() {
     let GenResult {
