@@ -7,7 +7,7 @@ pub use crate::Request;
 
 /// The `attach` request is sent from the client to the debug adapter to attach to a debuggee that is already running.
 /// Since attaching is debugger/runtime specific, the arguments for this request are not part of this specification.
-///
+/// 
 /// See [AttachRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Attach)
 pub enum Attach {}
 
@@ -19,7 +19,7 @@ impl Request for Attach {
 
 /// The `breakpointLocations` request returns all possible locations for source breakpoints in a given range.
 /// Clients should only call this request if the corresponding capability `supportsBreakpointLocationsRequest` is true.
-///
+/// 
 /// See [BreakpointLocationsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_BreakpointLocations)
 pub enum BreakpointLocations {}
 
@@ -39,7 +39,7 @@ impl Request for BreakpointLocations {
 /// Returning partial results from a cancelled request is possible but please note that a client has no generic way for detecting that a response is partial or not.
 /// The progress that got cancelled still needs to send a `progressEnd` event back.
 ///  A client should not assume that progress just got cancelled after sending the `cancel` request.
-///
+/// 
 /// See [CancelRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Cancel)
 pub enum Cancel {}
 
@@ -51,7 +51,7 @@ impl Request for Cancel {
 
 /// Returns a list of possible completions for a given caret position and text.
 /// Clients should only call this request if the corresponding capability `supportsCompletionsRequest` is true.
-///
+/// 
 /// See [CompletionsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Completions)
 pub enum Completions {}
 
@@ -64,7 +64,7 @@ impl Request for Completions {
 /// This request indicates that the client has finished initialization of the debug adapter.
 /// So it is the last request in the sequence of configuration requests (which was started by the `initialized` event).
 /// Clients should only call this request if the corresponding capability `supportsConfigurationDoneRequest` is true.
-///
+/// 
 /// See [ConfigurationDoneRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ConfigurationDone)
 pub enum ConfigurationDone {}
 
@@ -75,7 +75,7 @@ impl Request for ConfigurationDone {
 }
 
 /// The request resumes execution of all threads. If the debug adapter supports single thread execution (see capability `supportsSingleThreadExecutionRequests`), setting the `singleThread` argument to true resumes only the specified thread. If not all threads were resumed, the `allThreadsContinued` attribute of the response should be set to false.
-///
+/// 
 /// See [ContinueRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Continue)
 pub enum Continue {}
 
@@ -87,7 +87,7 @@ impl Request for Continue {
 
 /// Obtains information on a possible data breakpoint that could be set on an expression or variable.
 /// Clients should only call this request if the corresponding capability `supportsDataBreakpoints` is true.
-///
+/// 
 /// See [DataBreakpointInfoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_DataBreakpointInfo)
 pub enum DataBreakpointInfo {}
 
@@ -99,7 +99,7 @@ impl Request for DataBreakpointInfo {
 
 /// Disassembles code stored at the provided location.
 /// Clients should only call this request if the corresponding capability `supportsDisassembleRequest` is true.
-///
+/// 
 /// See [DisassembleRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Disassemble)
 pub enum Disassemble {}
 
@@ -112,7 +112,7 @@ impl Request for Disassemble {
 /// The `disconnect` request asks the debug adapter to disconnect from the debuggee (thus ending the debug session) and then to shut down itself (the debug adapter).
 /// In addition, the debug adapter must terminate the debuggee if it was started with the `launch` request. If an `attach` request was used to connect to the debuggee, then the debug adapter must not terminate the debuggee.
 /// This implicit behavior of when to terminate the debuggee can be overridden with the `terminateDebuggee` argument (which is only supported by a debug adapter if the corresponding capability `supportTerminateDebuggee` is true).
-///
+/// 
 /// See [DisconnectRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Disconnect)
 pub enum Disconnect {}
 
@@ -124,7 +124,7 @@ impl Request for Disconnect {
 
 /// Evaluates the given expression in the context of a stack frame.
 /// The expression has access to any variables and arguments that are in scope.
-///
+/// 
 /// See [EvaluateRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Evaluate)
 pub enum Evaluate {}
 
@@ -136,7 +136,7 @@ impl Request for Evaluate {
 
 /// Retrieves the details of the exception that caused this event to be raised.
 /// Clients should only call this request if the corresponding capability `supportsExceptionInfoRequest` is true.
-///
+/// 
 /// See [ExceptionInfoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ExceptionInfo)
 pub enum ExceptionInfo {}
 
@@ -151,7 +151,7 @@ impl Request for ExceptionInfo {
 /// The code between the current location and the goto target is not executed but skipped.
 /// The debug adapter first sends the response and then a `stopped` event with reason `goto`.
 /// Clients should only call this request if the corresponding capability `supportsGotoTargetsRequest` is true (because only then goto targets exist that can be passed as arguments).
-///
+/// 
 /// See [GotoRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Goto)
 pub enum Goto {}
 
@@ -164,7 +164,7 @@ impl Request for Goto {
 /// This request retrieves the possible goto targets for the specified source location.
 /// These targets can be used in the `goto` request.
 /// Clients should only call this request if the corresponding capability `supportsGotoTargetsRequest` is true.
-///
+/// 
 /// See [GotoTargetsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_GotoTargets)
 pub enum GotoTargets {}
 
@@ -178,7 +178,7 @@ impl Request for GotoTargets {
 /// Until the debug adapter has responded with an `initialize` response, the client must not send any additional requests or events to the debug adapter.
 /// In addition the debug adapter is not allowed to send any requests or events to the client until it has responded with an `initialize` response.
 /// The `initialize` request may only be sent once.
-///
+/// 
 /// See [InitializeRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Initialize)
 pub enum Initialize {}
 
@@ -190,7 +190,7 @@ impl Request for Initialize {
 
 /// This launch request is sent from the client to the debug adapter to start the debuggee with or without debugging (if `noDebug` is true).
 /// Since launching is debugger/runtime specific, the arguments for this request are not part of this specification.
-///
+/// 
 /// See [LaunchRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Launch)
 pub enum Launch {}
 
@@ -202,7 +202,7 @@ impl Request for Launch {
 
 /// Retrieves the set of all sources currently loaded by the debugged process.
 /// Clients should only call this request if the corresponding capability `supportsLoadedSourcesRequest` is true.
-///
+/// 
 /// See [LoadedSourcesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_LoadedSources)
 pub enum LoadedSources {}
 
@@ -213,7 +213,7 @@ impl Request for LoadedSources {
 }
 
 /// Looks up information about a location reference previously returned by the debug adapter.
-///
+/// 
 /// See [LocationsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Locations)
 pub enum Locations {}
 
@@ -225,7 +225,7 @@ impl Request for Locations {
 
 /// Modules can be retrieved from the debug adapter with this request which can either return all modules or a range of modules to support paging.
 /// Clients should only call this request if the corresponding capability `supportsModulesRequest` is true.
-///
+/// 
 /// See [ModulesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Modules)
 pub enum Modules {}
 
@@ -238,7 +238,7 @@ impl Request for Modules {
 /// The request executes one step (in the given granularity) for the specified thread and allows all other threads to run freely by resuming them.
 /// If the debug adapter supports single thread execution (see capability `supportsSingleThreadExecutionRequests`), setting the `singleThread` argument to true prevents other suspended threads from resuming.
 /// The debug adapter first sends the response and then a `stopped` event (with reason `step`) after the step has completed.
-///
+/// 
 /// See [NextRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Next)
 pub enum Next {}
 
@@ -250,7 +250,7 @@ impl Request for Next {
 
 /// The request suspends the debuggee.
 /// The debug adapter first sends the response and then a `stopped` event (with reason `pause`) after the thread has been paused successfully.
-///
+/// 
 /// See [PauseRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Pause)
 pub enum Pause {}
 
@@ -262,7 +262,7 @@ impl Request for Pause {
 
 /// Reads bytes from memory at the provided location.
 /// Clients should only call this request if the corresponding capability `supportsReadMemoryRequest` is true.
-///
+/// 
 /// See [ReadMemoryRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ReadMemory)
 pub enum ReadMemory {}
 
@@ -275,7 +275,7 @@ impl Request for ReadMemory {
 /// The request restarts execution of the specified stack frame.
 /// The debug adapter first sends the response and then a `stopped` event (with reason `restart`) after the restart has completed.
 /// Clients should only call this request if the corresponding capability `supportsRestartFrame` is true.
-///
+/// 
 /// See [RestartFrameRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_RestartFrame)
 pub enum RestartFrame {}
 
@@ -287,7 +287,7 @@ impl Request for RestartFrame {
 
 /// Restarts a debug session. Clients should only call this request if the corresponding capability `supportsRestartRequest` is true.
 /// If the capability is missing or has the value false, a typical client emulates `restart` by terminating the debug adapter first and then launching it anew.
-///
+/// 
 /// See [RestartRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Restart)
 pub enum Restart {}
 
@@ -299,7 +299,7 @@ impl Request for Restart {
 
 /// The request resumes backward execution of all threads. If the debug adapter supports single thread execution (see capability `supportsSingleThreadExecutionRequests`), setting the `singleThread` argument to true resumes only the specified thread. If not all threads were resumed, the `allThreadsContinued` attribute of the response should be set to false.
 /// Clients should only call this request if the corresponding capability `supportsStepBack` is true.
-///
+/// 
 /// See [ReverseContinueRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_ReverseContinue)
 pub enum ReverseContinue {}
 
@@ -314,7 +314,7 @@ impl Request for ReverseContinue {
 /// This request should only be called if the corresponding client capability `supportsRunInTerminalRequest` is true.
 /// Client implementations of `runInTerminal` are free to run the command however they choose including issuing the command to a command line interpreter (aka 'shell'). Argument strings passed to the `runInTerminal` request must arrive verbatim in the command to be run. As a consequence, clients which use a shell are responsible for escaping any special shell characters in the argument strings to prevent them from being interpreted (and modified) by the shell.
 /// Some users may wish to take advantage of shell processing in the argument strings. For clients which implement `runInTerminal` using an intermediary shell, the `argsCanBeInterpretedByShell` property can be set to true. In this case the client is requested not to escape any special shell characters in the argument strings.
-///
+/// 
 /// See [RunInTerminalRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_RunInTerminal)
 pub enum RunInTerminal {}
 
@@ -325,7 +325,7 @@ impl Request for RunInTerminal {
 }
 
 /// The request returns the variable scopes for a given stack frame ID.
-///
+/// 
 /// See [ScopesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Scopes)
 pub enum Scopes {}
 
@@ -338,7 +338,7 @@ impl Request for Scopes {
 /// Sets multiple breakpoints for a single source and clears all previous breakpoints in that source.
 /// To clear all breakpoint for a source, specify an empty array.
 /// When a breakpoint is hit, a `stopped` event (with reason `breakpoint`) is generated.
-///
+/// 
 /// See [SetBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetBreakpoints)
 pub enum SetBreakpoints {}
 
@@ -352,7 +352,7 @@ impl Request for SetBreakpoints {
 /// To clear all data breakpoints, specify an empty array.
 /// When a data breakpoint is hit, a `stopped` event (with reason `data breakpoint`) is generated.
 /// Clients should only call this request if the corresponding capability `supportsDataBreakpoints` is true.
-///
+/// 
 /// See [SetDataBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetDataBreakpoints)
 pub enum SetDataBreakpoints {}
 
@@ -364,7 +364,7 @@ impl Request for SetDataBreakpoints {
 
 /// The request configures the debugger's response to thrown exceptions. Each of the `filters`, `filterOptions`, and `exceptionOptions` in the request are independent configurations to a debug adapter indicating a kind of exception to catch. An exception thrown in a program should result in a `stopped` event from the debug adapter (with reason `exception`) if any of the configured filters match.
 /// Clients should only call this request if the corresponding capability `exceptionBreakpointFilters` returns one or more filters.
-///
+/// 
 /// See [SetExceptionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetExceptionBreakpoints)
 pub enum SetExceptionBreakpoints {}
 
@@ -378,7 +378,7 @@ impl Request for SetExceptionBreakpoints {
 /// The expressions have access to any variables and arguments that are in scope of the specified frame.
 /// Clients should only call this request if the corresponding capability `supportsSetExpression` is true.
 /// If a debug adapter implements both `setExpression` and `setVariable`, a client uses `setExpression` if the variable has an `evaluateName` property.
-///
+/// 
 /// See [SetExpressionRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetExpression)
 pub enum SetExpression {}
 
@@ -392,7 +392,7 @@ impl Request for SetExpression {
 /// To clear all function breakpoints, specify an empty array.
 /// When a function breakpoint is hit, a `stopped` event (with reason `function breakpoint`) is generated.
 /// Clients should only call this request if the corresponding capability `supportsFunctionBreakpoints` is true.
-///
+/// 
 /// See [SetFunctionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetFunctionBreakpoints)
 pub enum SetFunctionBreakpoints {}
 
@@ -406,7 +406,7 @@ impl Request for SetFunctionBreakpoints {
 /// To clear all instruction breakpoints, specify an empty array.
 /// When an instruction breakpoint is hit, a `stopped` event (with reason `instruction breakpoint`) is generated.
 /// Clients should only call this request if the corresponding capability `supportsInstructionBreakpoints` is true.
-///
+/// 
 /// See [SetInstructionBreakpointsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetInstructionBreakpoints)
 pub enum SetInstructionBreakpoints {}
 
@@ -418,7 +418,7 @@ impl Request for SetInstructionBreakpoints {
 
 /// Set the variable with the given name in the variable container to a new value. Clients should only call this request if the corresponding capability `supportsSetVariable` is true.
 /// If a debug adapter implements both `setVariable` and `setExpression`, a client will only use `setExpression` if the variable has an `evaluateName` property.
-///
+/// 
 /// See [SetVariableRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_SetVariable)
 pub enum SetVariable {}
 
@@ -429,7 +429,7 @@ impl Request for SetVariable {
 }
 
 /// The request retrieves the source code for a given source reference.
-///
+/// 
 /// See [SourceRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Source)
 pub enum Source {}
 
@@ -441,7 +441,7 @@ impl Request for Source {
 
 /// The request returns a stacktrace from the current execution state of a given thread.
 /// A client can request all stack frames by omitting the startFrame and levels arguments. For performance-conscious clients and if the corresponding capability `supportsDelayedStackTraceLoading` is true, stack frames can be retrieved in a piecemeal way with the `startFrame` and `levels` arguments. The response of the `stackTrace` request may contain a `totalFrames` property that hints at the total number of frames in the stack. If a client needs this total number upfront, it can issue a request for a single (first) frame and depending on the value of `totalFrames` decide how to proceed. In any case a client should be prepared to receive fewer frames than requested, which is an indication that the end of the stack has been reached.
-///
+/// 
 /// See [StackTraceRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StackTrace)
 pub enum StackTrace {}
 
@@ -454,7 +454,7 @@ impl Request for StackTrace {
 /// This request is sent from the debug adapter to the client to start a new debug session of the same type as the caller.
 /// This request should only be sent if the corresponding client capability `supportsStartDebuggingRequest` is true.
 /// A client implementation of `startDebugging` should start a new debug session (of the same type as the caller) in the same way that the caller's session was started. If the client supports hierarchical debug sessions, the newly created session can be treated as a child of the caller session.
-///
+/// 
 /// See [StartDebuggingRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StartDebugging)
 pub enum StartDebugging {}
 
@@ -468,7 +468,7 @@ impl Request for StartDebugging {
 /// If the debug adapter supports single thread execution (see capability `supportsSingleThreadExecutionRequests`), setting the `singleThread` argument to true prevents other suspended threads from resuming.
 /// The debug adapter first sends the response and then a `stopped` event (with reason `step`) after the step has completed.
 /// Clients should only call this request if the corresponding capability `supportsStepBack` is true.
-///
+/// 
 /// See [StepBackRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepBack)
 pub enum StepBack {}
 
@@ -485,7 +485,7 @@ impl Request for StepBack {
 /// If there are multiple function/method calls (or other targets) on the source line,
 /// the argument `targetId` can be used to control into which target the `stepIn` should occur.
 /// The list of possible targets for a given source line can be retrieved via the `stepInTargets` request.
-///
+/// 
 /// See [StepInRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepIn)
 pub enum StepIn {}
 
@@ -498,7 +498,7 @@ impl Request for StepIn {
 /// This request retrieves the possible step-in targets for the specified stack frame.
 /// These targets can be used in the `stepIn` request.
 /// Clients should only call this request if the corresponding capability `supportsStepInTargetsRequest` is true.
-///
+/// 
 /// See [StepInTargetsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepInTargets)
 pub enum StepInTargets {}
 
@@ -511,7 +511,7 @@ impl Request for StepInTargets {
 /// The request resumes the given thread to step out (return) from a function/method and allows all other threads to run freely by resuming them.
 /// If the debug adapter supports single thread execution (see capability `supportsSingleThreadExecutionRequests`), setting the `singleThread` argument to true prevents other suspended threads from resuming.
 /// The debug adapter first sends the response and then a `stopped` event (with reason `step`) after the step has completed.
-///
+/// 
 /// See [StepOutRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_StepOut)
 pub enum StepOut {}
 
@@ -525,7 +525,7 @@ impl Request for StepOut {
 /// Typically a debug adapter implements `terminate` by sending a software signal which the debuggee intercepts in order to clean things up properly before terminating itself.
 /// Please note that this request does not directly affect the state of the debug session: if the debuggee decides to veto the graceful shutdown for any reason by not terminating itself, then the debug session just continues.
 /// Clients can surface the `terminate` request as an explicit command or they can integrate it into a two stage Stop command that first sends `terminate` to request a graceful shutdown, and if that fails uses `disconnect` for a forceful shutdown.
-///
+/// 
 /// See [TerminateRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Terminate)
 pub enum Terminate {}
 
@@ -537,7 +537,7 @@ impl Request for Terminate {
 
 /// The request terminates the threads with the given ids.
 /// Clients should only call this request if the corresponding capability `supportsTerminateThreadsRequest` is true.
-///
+/// 
 /// See [TerminateThreadsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_TerminateThreads)
 pub enum TerminateThreads {}
 
@@ -548,7 +548,7 @@ impl Request for TerminateThreads {
 }
 
 /// The request retrieves a list of all threads.
-///
+/// 
 /// See [ThreadsRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Threads)
 pub enum Threads {}
 
@@ -560,7 +560,7 @@ impl Request for Threads {
 
 /// Retrieves all child variables for the given variable reference.
 /// A filter can be used to limit the fetched children to either named or indexed children.
-///
+/// 
 /// See [VariablesRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_Variables)
 pub enum Variables {}
 
@@ -572,7 +572,7 @@ impl Request for Variables {
 
 /// Writes bytes to memory at the provided location.
 /// Clients should only call this request if the corresponding capability `supportsWriteMemoryRequest` is true.
-///
+/// 
 /// See [WriteMemoryRequest.](https://microsoft.github.io/debug-adapter-protocol/specification#Requests_WriteMemory)
 pub enum WriteMemory {}
 

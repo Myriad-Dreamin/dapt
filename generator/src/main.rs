@@ -22,24 +22,6 @@ fn main() {
     write_file("events.rs", &events);
 }
 
-#[test]
-fn generated_files_are_up_to_date() {
-    fn check_file(file: &str, contents: &str) {
-        let want = with_disclaimer(contents);
-        let got = std::fs::read_to_string(dst_path(file)).unwrap();
-        assert!(want == got, "file {file} is not up to date");
-    }
-    let GenResult {
-        types,
-        requests,
-        events,
-    } = gen();
-
-    check_file("types.rs", &types);
-    check_file("requests.rs", &requests);
-    check_file("events.rs", &events);
-}
-
 struct GenResult {
     types: String,
     requests: String,
@@ -742,3 +724,46 @@ pub struct RestartArguments {
     pub raw: serde_json::Value,
 }
 ";
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn generated_files_are_up_to_date() {
+        fn check_file(file: &str, contents: &str) {
+            let want = with_disclaimer(contents);
+            let got = std::fs::read_to_string(dst_path(file)).unwrap();
+            assert!(want == got, "file {file} is not up to date: {}", diff(&want, &got));
+        }
+        let GenResult {
+            types,
+            requests,
+            events,
+        } = gen();
+
+        check_file("types.rs", &types);
+        check_file("requests.rs", &requests);
+        check_file("events.rs", &events);
+    }
+
+    #[cfg(not(unix))]
+    fn diff(a: &str, b: &str) -> String {
+        format!("diff is not available on this platform")
+    }
+
+    #[cfg(unix)]
+    fn diff(a: &str, b: &str) -> String {
+        std::fs::write("a", a).unwrap();
+        std::fs::write("b", b).unwrap();
+        let output = std::process::Command::new("diff")
+            .arg("-u")
+            .arg("a")
+            .arg("b")
+            .output()
+            .unwrap();
+        std::fs::remove_file("a").unwrap();
+        std::fs::remove_file("b").unwrap();
+        String::from_utf8(output.stdout).unwrap()
+    }
+}
