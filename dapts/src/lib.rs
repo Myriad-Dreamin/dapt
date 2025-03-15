@@ -24,3 +24,19 @@ pub trait Event {
     const EVENT: &'static str;
     type Body: Debug + Clone + Serialize + DeserializeOwned + Send + Sync;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_serialize_stopped_reason() {
+        let reason = StoppedEventReason::Exception;
+        let serialized = serde_json::to_string(&reason).unwrap();
+        assert_eq!(serialized, r#""exception""#);
+
+        let reason = StoppedEventReason::FunctionBreakpoint;
+        let serialized = serde_json::to_string(&reason).unwrap();
+        assert_eq!(serialized, r#""function breakpoint""#);
+    }
+}
