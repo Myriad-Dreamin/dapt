@@ -1,9 +1,9 @@
 [package]
-name = "dapt"
-version = "0.1.0"
+name = "dapts"
+version = "0.0.1"
 description = "Debug Adapter Protocol (DAP) types made easy."
 authors = ["Myriad Dreamin"]
-repository = "https://github.com/Myriad-Dreamin/dapt"
+repository = "https://github.com/Myriad-Dreamin/dapts"
 license = "MIT"
 edition = "2021"
 keywords = ["dap"]

@@ -2,7 +2,7 @@
 name = "generator"
 version = "0.0.0"
 authors = ["Myriad Dreamin"]
-repository = "https://github.com/Myriad-Dreamin/dapt"
+repository = "https://github.com/Myriad-Dreamin/dapts"
 license = "MIT"
 edition = "2021"
 publish = false

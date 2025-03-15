@@ -76,7 +76,7 @@ fn with_disclaimer(contents: &str) -> String {
 
 fn dst_path(file: &str) -> PathBuf {
     let workspace_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
-    workspace_dir.join("dapt/src").join(file)
+    workspace_dir.join("dapts/src").join(file)
 }
 
 const BLACKLISTED_TYPES: &[&str] = &[
