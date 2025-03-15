@@ -14,7 +14,7 @@ env:
 
 jobs:
   checks:
-    name: Check clippy, formatting, completion, and documentation
+    name: Check clippy, formatting, and documentation
     runs-on: ubuntu-latest
 
     steps:
