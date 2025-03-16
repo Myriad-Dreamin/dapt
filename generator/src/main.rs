@@ -219,7 +219,7 @@ fn generate_protocol_types(schema: &Value) -> Vec<ProtocolType> {
         eprintln!("\x1b[1;32mChecking\x1b[0m {name} ...");
         types.push(ProtocolType {
             name: name.to_owned(),
-            ty: translate_type(defs, def),
+            ty: translate_type(defs, Some(name), def),
         });
     }
     types
@@ -233,7 +233,7 @@ fn translate_all_of(defs: &Map<String, Value>, def: &Value) -> Object {
     for subobject in members {
         let subobject = if let Some(r) = subobject.get("$ref") {
             let r = r.as_str().unwrap().strip_prefix("#/definitions/").unwrap();
-            match translate_type(defs, &defs[r]) {
+            match translate_type(defs, None, &defs[r]) {
                 Type::Object(o) => o,
                 _ => todo!(),
             }
@@ -283,12 +283,12 @@ fn generate_field(defs: &Map<String, Value>, name: &str, def: &Value, required: 
     Field {
         doc: def.get("description").map(|x| x.as_str().unwrap().to_owned()),
         name: name.to_owned(),
-        ty: translate_type(defs, def),
+        ty: translate_type(defs, Some(name), def),
         required,
     }
 }
 
-fn translate_type(defs: &Map<String, Value>, t: &Value) -> Type {
+fn translate_type(defs: &Map<String, Value>, name: Option<&str>, t: &Value) -> Type {
     if is_any(t) {
         return Type::Any;
     }
@@ -309,8 +309,22 @@ fn translate_type(defs: &Map<String, Value>, t: &Value) -> Type {
         panic!("failed to find type on {t}");
     });
     match ty {
-        "integer" => "u64".into(),
-        "number" => "u64".into(),
+        "integer" | "number" => {
+            const LINE_FIELDS: &[&str] = &[
+                "startLine",
+                "endLine",
+                "startColumn",
+                "endColumn",
+                "line",
+                "column",
+                "offset",
+            ];
+            if name.is_some_and(|name| LINE_FIELDS.contains(&name)) {
+                return "u32".into();
+            }
+
+            "u64".into()
+        }
         "boolean" => "bool".into(),
         "string" => {
             let doc = t.get("description").map(|x| x.as_str().unwrap().to_owned());
@@ -357,7 +371,7 @@ fn translate_type(defs: &Map<String, Value>, t: &Value) -> Type {
             }
         }
         "array" => {
-            let item = translate_type(defs, t.get("items").unwrap());
+            let item = translate_type(defs, name, t.get("items").unwrap());
             Type::Vec(Box::new(item))
         }
         other => other.into(),

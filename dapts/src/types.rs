@@ -35,14 +35,14 @@ pub struct RestartArguments {
 pub struct Breakpoint {
     /// Start position of the source range covered by the breakpoint. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// End position of the source range covered by the breakpoint. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     /// If no end line is given, then the end column is assumed to be in the start line.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the actual range covered by the breakpoint.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// The identifier for the breakpoint. It is needed if breakpoint events are used to update or remove breakpoints.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub id: Option<u64>,
@@ -51,7 +51,7 @@ pub struct Breakpoint {
     pub instruction_reference: Option<String>,
     /// The start line of the actual range covered by the breakpoint.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// A message about the state of the breakpoint.
     /// This is shown to the user and can be used to explain why a breakpoint could not be verified.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -59,7 +59,7 @@ pub struct Breakpoint {
     /// The offset from the instruction reference.
     /// This can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
     /// A machine-readable explanation of why a breakpoint may not be verified. If a breakpoint is verified or a specific reason is not known, the adapter should omit this property. Possible values include:
     ///
     /// - `pending`: Indicates a breakpoint might be verified in the future, but the adapter cannot verify it in the current state.
@@ -113,15 +113,15 @@ pub enum BreakpointEventReason {
 pub struct BreakpointLocation {
     /// The start position of a breakpoint location. Position is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The end position of a breakpoint location (if the location covers a range). Position is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of breakpoint location if the location covers a range.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// Start line of breakpoint location.
-    pub line: u64,
+    pub line: u32,
 }
 
 /// Arguments for `breakpointLocations` request.
@@ -130,15 +130,15 @@ pub struct BreakpointLocation {
 pub struct BreakpointLocationsArguments {
     /// Start position within `line` to search possible breakpoint locations in. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based. If no column is given, the first position in the start line is assumed.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// End position within `endLine` to search possible breakpoint locations in. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based. If no end column is given, the last position in the end line is assumed.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// End line of range to search possible breakpoint locations in. If no end line is given, then the end line is assumed to be the start line.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// Start line of range to search possible breakpoint locations in. If only the line is specified, the request returns all possible locations in that line.
-    pub line: u64,
+    pub line: u32,
     /// The source location of the breakpoints; either `source.path` or `source.sourceReference` must be specified.
     pub source: Source,
 }
@@ -464,13 +464,13 @@ pub enum CompletionItemType {
 #[serde(rename_all = "camelCase")]
 pub struct CompletionsArguments {
     /// The position within `text` for which to determine the completion proposals. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
-    pub column: u64,
+    pub column: u32,
     /// Returns completions in the scope of this stack frame. If not specified, the completions are returned for the global scope.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub frame_id: Option<u64>,
     /// A line for which to determine the completion proposals. If missing the first line of the text is assumed.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// One or more source lines. Typically this is the text users have typed into the debug console before they asked for completion.
     pub text: String,
 }
@@ -606,7 +606,7 @@ pub struct DisassembleArguments {
     pub memory_reference: String,
     /// Offset (in bytes) to be applied to the reference location before disassembling. Can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
     /// If true, the adapter should attempt to resolve memory addresses and other values to symbolic names.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resolve_symbols: Option<bool>,
@@ -628,13 +628,13 @@ pub struct DisassembledInstruction {
     pub address: String,
     /// The column within the line that corresponds to this instruction, if any.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The end column of the range that corresponds to this instruction, if any.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the range that corresponds to this instruction, if any.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// Text representing the instruction and its operands, in an implementation-defined format.
     pub instruction: String,
     /// Raw bytes representing the instruction and its operands, in an implementation-defined format.
@@ -642,7 +642,7 @@ pub struct DisassembledInstruction {
     pub instruction_bytes: Option<String>,
     /// The line within the source location that corresponds to this instruction, if any.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// Source location that corresponds to this instruction, if any.
     /// Should always be set (if available) on the first instruction returned,
     /// but can be omitted afterwards if this instruction maps to the same source file as the previous instruction.
@@ -707,7 +707,7 @@ pub struct EvaluateArguments {
     ///
     /// It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The context in which the evaluate request is used.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub context: Option<EvaluateArgumentsContext>,
@@ -722,7 +722,7 @@ pub struct EvaluateArguments {
     pub frame_id: Option<u64>,
     /// The contextual line where the expression should be evaluated. In the 'hover' context, this should be set to the start of the expression being hovered.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// The contextual source in which the `line` is found. This must be provided if `line` is provided.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
@@ -953,13 +953,13 @@ pub struct GotoArguments {
 pub struct GotoTarget {
     /// The column of the goto target.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The end column of the range covered by the goto target.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the range covered by the goto target.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// Unique identifier for a goto target. This is used in the `goto` request.
     pub id: u64,
     /// A memory reference for the instruction pointer value represented by this target.
@@ -968,7 +968,7 @@ pub struct GotoTarget {
     /// The name of the goto target (shown in the UI).
     pub label: String,
     /// The line of the goto target.
-    pub line: u64,
+    pub line: u32,
 }
 
 /// Arguments for `gotoTargets` request.
@@ -977,9 +977,9 @@ pub struct GotoTarget {
 pub struct GotoTargetsArguments {
     /// The position within `line` for which the goto targets are determined. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The line location for which the goto targets are determined.
-    pub line: u64,
+    pub line: u32,
     /// The source location for which the goto targets are determined.
     pub source: Source,
 }
@@ -1085,7 +1085,7 @@ pub struct InstructionBreakpoint {
     /// The offset from the instruction reference in bytes.
     /// This can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
 }
 
 /// Logical areas that can be invalidated by the `invalidated` event.
@@ -1168,15 +1168,15 @@ pub struct LocationsArguments {
 pub struct LocationsResponse {
     /// Position of the location within the `line`. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based. If no column is given, the first position in the start line is assumed.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// End position of the location within `endLine`, present if the location refers to a range. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// End line of the location, present if the location refers to a range.  The client capability `linesStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// The line number of the location. The client capability `linesStartAt1` determines whether it is 0- or 1-based.
-    pub line: u64,
+    pub line: u32,
     /// The source containing the location; either `source.path` or `source.sourceReference` must be specified.
     pub source: Source,
 }
@@ -1192,7 +1192,7 @@ pub struct MemoryEvent {
     /// Memory reference of a memory range that has been updated.
     pub memory_reference: String,
     /// Starting offset in bytes where memory has been updated. Can be negative.
-    pub offset: u64,
+    pub offset: u32,
 }
 
 /// A structured message object. Used to return errors from requests.
@@ -1326,7 +1326,7 @@ pub struct OutputEvent {
     pub category: Option<OutputEventCategory>,
     /// The position in `line` where the output was produced. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// Additional data to report. For the `telemetry` category the data is sent to telemetry, for the other categories the data is shown in JSON format.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub data: Option<serde_json::Value>,
@@ -1335,7 +1335,7 @@ pub struct OutputEvent {
     pub group: Option<OutputEventGroup>,
     /// The source location's line where the output was produced.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// A reference that allows the client to request the location where the new value is declared. For example, if the logged value is function pointer, the adapter may be able to look up the function's location. This should be present only if the adapter is likely to be able to resolve the location.
     ///
     /// This reference shares the same lifetime as the `variablesReference`. See 'Lifetime of Object References' in the Overview section for details.
@@ -1496,7 +1496,7 @@ pub struct ReadMemoryArguments {
     pub memory_reference: String,
     /// Offset (in bytes) to be applied to the reference location before reading data. Can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
 }
 
 /// Response to `readMemory` request.
@@ -1582,13 +1582,13 @@ pub struct RunInTerminalResponse {
 pub struct Scope {
     /// Start position of the range covered by the scope. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// End position of the range covered by the scope. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the range covered by this scope.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// If true, the number of variables in this scope is large or expensive to retrieve.
     pub expensive: bool,
     /// The number of indexed variables in this scope.
@@ -1597,7 +1597,7 @@ pub struct Scope {
     pub indexed_variables: Option<u64>,
     /// The start line of the range covered by this scope.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
     /// Name of the scope such as 'Arguments', 'Locals', or 'Registers'. This string is shown in the UI as is and can be translated.
     pub name: String,
     /// The number of named variables in this scope.
@@ -1931,7 +1931,7 @@ pub struct SourceArguments {
 pub struct SourceBreakpoint {
     /// Start position within source line of the breakpoint or logpoint. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// The expression for conditional breakpoints.
     /// It is only honored by a debug adapter if the corresponding capability `supportsConditionalBreakpoints` is true.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1943,7 +1943,7 @@ pub struct SourceBreakpoint {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hit_condition: Option<String>,
     /// The source line of the breakpoint or logpoint.
-    pub line: u64,
+    pub line: u32,
     /// If this attribute exists and is non-empty, the debug adapter must not 'break' (stop)
     /// but log the message instead. Expressions within `{}` are interpolated.
     /// The attribute is only honored by a debug adapter if the corresponding capability `supportsLogPoints` is true.
@@ -1974,13 +1974,13 @@ pub struct StackFrame {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub can_restart: Option<bool>,
     /// Start position of the range covered by the stack frame. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based. If attribute `source` is missing or doesn't exist, `column` is 0 and should be ignored by the client.
-    pub column: u64,
+    pub column: u32,
     /// End position of the range covered by the stack frame. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the range covered by the stack frame.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// An identifier for the stack frame. It must be unique across all threads.
     /// This id can be used to retrieve the scopes of the frame with the `scopes` request or to restart the execution of a stack frame.
     pub id: u64,
@@ -1988,7 +1988,7 @@ pub struct StackFrame {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub instruction_pointer_reference: Option<String>,
     /// The line within the source of the frame. If the source attribute is missing or doesn't exist, `line` is 0 and should be ignored by the client.
-    pub line: u64,
+    pub line: u32,
     /// The module associated with this frame, if any.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub module_id: Option<ModuleId>,
@@ -2133,20 +2133,20 @@ pub struct StepInArguments {
 pub struct StepInTarget {
     /// Start position of the range covered by the step in target. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub column: Option<u64>,
+    pub column: Option<u32>,
     /// End position of the range covered by the step in target. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_column: Option<u64>,
+    pub end_column: Option<u32>,
     /// The end line of the range covered by the step-in target.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub end_line: Option<u64>,
+    pub end_line: Option<u32>,
     /// Unique identifier for a step-in target.
     pub id: u64,
     /// The name of the step-in target (shown in the UI).
     pub label: String,
     /// The line of the step-in target.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub line: Option<u64>,
+    pub line: Option<u32>,
 }
 
 /// Arguments for `stepInTargets` request.
@@ -2526,7 +2526,7 @@ pub struct WriteMemoryArguments {
     pub memory_reference: String,
     /// Offset (in bytes) to be applied to the reference location before writing data. Can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
 }
 
 /// Response to `writeMemory` request.
@@ -2538,5 +2538,5 @@ pub struct WriteMemoryResponse {
     pub bytes_written: Option<u64>,
     /// Property that should be returned when `allowPartial` is true to indicate the offset of the first byte of data successfully written. Can be negative.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub offset: Option<u64>,
+    pub offset: Option<u32>,
 }
