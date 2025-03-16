@@ -310,7 +310,7 @@ fn translate_type(defs: &Map<String, Value>, name: Option<&str>, t: &Value) -> T
     });
     match ty {
         "integer" | "number" => {
-            const LINE_FIELDS: &[&str] = &[
+            const U32_FIELDS: &[&str] = &[
                 "startLine",
                 "endLine",
                 "startColumn",
@@ -318,8 +318,14 @@ fn translate_type(defs: &Map<String, Value>, name: Option<&str>, t: &Value) -> T
                 "line",
                 "column",
                 "offset",
+                "indexedVariables",
+                "namedVariables",
+                "variablesReference",
+                "sourceReference",
+                "processId",
+                "shellProcessId",
             ];
-            if name.is_some_and(|name| LINE_FIELDS.contains(&name)) {
+            if name.is_some_and(|name| U32_FIELDS.contains(&name)) {
                 return "u32".into();
             }
 

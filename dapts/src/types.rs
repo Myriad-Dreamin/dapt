@@ -573,7 +573,7 @@ pub struct DataBreakpointInfoArguments {
     pub name: String,
     /// Reference to the variable container if the data breakpoint is requested for a child of the container. The `variablesReference` must have been obtained in the current suspended state. See 'Lifetime of Object References' in the Overview section for details.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub variables_reference: Option<u64>,
+    pub variables_reference: Option<u32>,
 }
 
 /// Response to `dataBreakpointInfo` request.
@@ -758,7 +758,7 @@ pub struct EvaluateResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub indexed_variables: Option<u64>,
+    pub indexed_variables: Option<u32>,
     /// A memory reference to a location appropriate for this result.
     /// For pointer type eval results, this is generally a reference to the memory address contained in the pointer.
     /// This attribute may be returned by a debug adapter if corresponding capability `supportsMemoryReferences` is true.
@@ -768,7 +768,7 @@ pub struct EvaluateResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub named_variables: Option<u64>,
+    pub named_variables: Option<u32>,
     /// Properties of an evaluate result that can be used to determine how to render the result in the UI.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub presentation_hint: Option<VariablePresentationHint>,
@@ -785,7 +785,7 @@ pub struct EvaluateResponse {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub value_location_reference: Option<u64>,
     /// If `variablesReference` is > 0, the evaluate result is structured and its children can be retrieved by passing `variablesReference` to the `variables` request as long as execution remains suspended. See 'Lifetime of Object References' in the Overview section for details.
-    pub variables_reference: u64,
+    pub variables_reference: u32,
 }
 
 /// This enumeration defines all possible conditions when a thrown exception should result in a break.
@@ -1352,7 +1352,7 @@ pub struct OutputEvent {
     pub source: Option<Source>,
     /// If an attribute `variablesReference` exists and its value is > 0, the output contains objects which can be retrieved by passing `variablesReference` to the `variables` request as long as execution remains suspended. See 'Lifetime of Object References' in the Overview section for details.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub variables_reference: Option<u64>,
+    pub variables_reference: Option<u32>,
 }
 
 /// The output category. If not specified or if the category is not understood by the client, `console` is assumed.
@@ -1570,10 +1570,10 @@ pub enum RunInTerminalRequestArgumentsKind {
 pub struct RunInTerminalResponse {
     /// The process ID. The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub process_id: Option<u64>,
+    pub process_id: Option<u32>,
     /// The process ID of the terminal shell. The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub shell_process_id: Option<u64>,
+    pub shell_process_id: Option<u32>,
 }
 
 /// A `Scope` is a named container for variables. Optionally a scope can map to a source or a range within a source.
@@ -1594,7 +1594,7 @@ pub struct Scope {
     /// The number of indexed variables in this scope.
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub indexed_variables: Option<u64>,
+    pub indexed_variables: Option<u32>,
     /// The start line of the range covered by this scope.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub line: Option<u32>,
@@ -1603,7 +1603,7 @@ pub struct Scope {
     /// The number of named variables in this scope.
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub named_variables: Option<u64>,
+    pub named_variables: Option<u32>,
     /// A hint for how to present this scope in the UI. If this attribute is missing, the scope is shown with a generic UI.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub presentation_hint: Option<ScopePresentationHint>,
@@ -1611,7 +1611,7 @@ pub struct Scope {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source: Option<Source>,
     /// The variables of this scope can be retrieved by passing the value of `variablesReference` to the `variables` request as long as execution remains suspended. See 'Lifetime of Object References' in the Overview section for details.
-    pub variables_reference: u64,
+    pub variables_reference: u32,
 }
 
 /// A hint for how to present this scope in the UI. If this attribute is missing, the scope is shown with a generic UI.
@@ -1747,7 +1747,7 @@ pub struct SetExpressionResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub indexed_variables: Option<u64>,
+    pub indexed_variables: Option<u32>,
     /// A memory reference to a location appropriate for this result.
     /// For pointer type eval results, this is generally a reference to the memory address contained in the pointer.
     /// This attribute may be returned by a debug adapter if corresponding capability `supportsMemoryReferences` is true.
@@ -1757,7 +1757,7 @@ pub struct SetExpressionResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub named_variables: Option<u64>,
+    pub named_variables: Option<u32>,
     /// Properties of a value that can be used to determine how to render the result in the UI.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub presentation_hint: Option<VariablePresentationHint>,
@@ -1775,7 +1775,7 @@ pub struct SetExpressionResponse {
     pub value_location_reference: Option<u64>,
     /// If `variablesReference` is > 0, the evaluate result is structured and its children can be retrieved by passing `variablesReference` to the `variables` request as long as execution remains suspended. See 'Lifetime of Object References' in the Overview section for details.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub variables_reference: Option<u64>,
+    pub variables_reference: Option<u32>,
 }
 
 /// Arguments for `setFunctionBreakpoints` request.
@@ -1823,7 +1823,7 @@ pub struct SetVariableArguments {
     /// The value of the variable.
     pub value: String,
     /// The reference of the variable container. The `variablesReference` must have been obtained in the current suspended state. See 'Lifetime of Object References' in the Overview section for details.
-    pub variables_reference: u64,
+    pub variables_reference: u32,
 }
 
 /// Response to `setVariable` request.
@@ -1834,7 +1834,7 @@ pub struct SetVariableResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub indexed_variables: Option<u64>,
+    pub indexed_variables: Option<u32>,
     /// A memory reference to a location appropriate for this result.
     /// For pointer type eval results, this is generally a reference to the memory address contained in the pointer.
     /// This attribute may be returned by a debug adapter if corresponding capability `supportsMemoryReferences` is true.
@@ -1844,7 +1844,7 @@ pub struct SetVariableResponse {
     /// The client can use this information to present the variables in a paged UI and fetch them in chunks.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub named_variables: Option<u64>,
+    pub named_variables: Option<u32>,
     /// The type of the new value. Typically shown in the UI when hovering over the value.
     #[serde(rename = "type")]
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1860,7 +1860,7 @@ pub struct SetVariableResponse {
     ///
     /// If this property is included in the response, any `variablesReference` previously associated with the updated variable, and those of its children, are no longer valid.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub variables_reference: Option<u64>,
+    pub variables_reference: Option<u32>,
 }
 
 /// A `Source` is a descriptor for source code.
@@ -1894,7 +1894,7 @@ pub struct Source {
     /// Since a `sourceReference` is only valid for a session, it can not be used to persist a source.
     /// The value should be less than or equal to 2147483647 (2^31-1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub source_reference: Option<u64>,
+    pub source_reference: Option<u32>,
     /// A list of sources that are related to this source. These may be the source that generated this source.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub sources: Option<Vec<Source>>,
@@ -1922,7 +1922,7 @@ pub struct SourceArguments {
     pub source: Option<Source>,
     /// The reference to the source. This is the same as `source.sourceReference`.
     /// This is provided for backward compatibility since old clients do not understand the `source` attribute.
-    pub source_reference: u64,
+    pub source_reference: u32,
 }
 
 /// Properties of a breakpoint or logpoint passed to the `setBreakpoints` request.
@@ -2346,7 +2346,7 @@ pub struct Variable {
     /// The number of indexed child variables.
     /// The client can use this information to present the children in a paged UI and fetch them in chunks.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub indexed_variables: Option<u64>,
+    pub indexed_variables: Option<u32>,
     /// A memory reference associated with this variable.
     /// For pointer type variables, this is generally a reference to the memory address contained in the pointer.
     /// For executable data, this reference may later be used in a `disassemble` request.
@@ -2358,7 +2358,7 @@ pub struct Variable {
     /// The number of named child variables.
     /// The client can use this information to present the children in a paged UI and fetch them in chunks.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub named_variables: Option<u64>,
+    pub named_variables: Option<u32>,
     /// Properties of a variable that can be used to determine how to render the variable in the UI.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub presentation_hint: Option<VariablePresentationHint>,
@@ -2378,7 +2378,7 @@ pub struct Variable {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub value_location_reference: Option<u64>,
     /// If `variablesReference` is > 0, the variable is structured and its children can be retrieved by passing `variablesReference` to the `variables` request as long as execution remains suspended. See 'Lifetime of Object References' in the Overview section for details.
-    pub variables_reference: u64,
+    pub variables_reference: u32,
 }
 
 /// Properties of a variable that can be used to determine how to render the variable in the UI.
@@ -2493,7 +2493,7 @@ pub struct VariablesArguments {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub start: Option<u64>,
     /// The variable for which to retrieve its children. The `variablesReference` must have been obtained in the current suspended state. See 'Lifetime of Object References' in the Overview section for details.
-    pub variables_reference: u64,
+    pub variables_reference: u32,
 }
 
 /// Filter to limit the child variables to either named or indexed. If omitted, both types are fetched.
