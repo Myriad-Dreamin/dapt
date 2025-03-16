@@ -89,7 +89,7 @@ pub struct Response {
     /// 'cancelled': request was cancelled.
     /// etc.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub message: Option<serde_json::Value>,
+    pub message: Option<String>,
     /// Contains request result if success is true and error details if success
     /// is false.
     #[serde(flatten, skip_serializing_if = "Option::is_none")]
@@ -101,13 +101,13 @@ impl Response {
     pub fn new(
         request_seq: i64,
         success: bool,
-        message: Option<impl serde::Serialize>,
+        message: Option<String>,
         body: Option<impl serde::Serialize>,
     ) -> Response {
         Response {
             request_seq,
             success,
-            message: message.map(|m| serde_json::to_value(m).unwrap()),
+            message,
             body: body.map(|b| serde_json::to_value(b).unwrap()),
         }
     }
@@ -123,12 +123,18 @@ impl Response {
     }
 
     /// Creates a new error response.
-    pub fn error(request_seq: i64, message: impl serde::Serialize, body: Option<impl serde::Serialize>) -> Response {
+    pub fn error(request_seq: i64, message: Option<String>, detail: Option<Message>) -> Response {
+        #[derive(Serialize)]
+        struct ErrorResponseBody {
+            /// A structured error message.
+            error: Message,
+        }
+
         Response {
             request_seq,
             success: false,
-            message: Some(serde_json::to_value(message).unwrap()),
-            body: body.map(|b| serde_json::to_value(b).unwrap()),
+            message,
+            body: detail.map(|error| serde_json::to_value(&ErrorResponseBody { error }).unwrap()),
         }
     }
 }
