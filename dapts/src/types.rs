@@ -30,7 +30,7 @@ pub struct RestartArguments {
 }
 
 /// Information about a breakpoint created in `setBreakpoints`, `setFunctionBreakpoints`, `setInstructionBreakpoints`, or `setDataBreakpoints` requests.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Breakpoint {
     /// Start position of the source range covered by the breakpoint. It is measured in UTF-16 code units and the client capability `columnsStartAt1` determines whether it is 0- or 1-based.
@@ -77,7 +77,7 @@ pub struct Breakpoint {
 ///
 /// - `pending`: Indicates a breakpoint might be verified in the future, but the adapter cannot verify it in the current state.
 ///  - `failed`: Indicates a breakpoint was not able to be verified, and the adapter does not believe it can be verified without intervention.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum BreakpointReason {
     Pending,
@@ -85,7 +85,7 @@ pub enum BreakpointReason {
 }
 
 /// The event indicates that some information about a breakpoint has changed.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BreakpointEvent {
     /// The `id` attribute is used to find the target breakpoint, the other attributes are used as the new values.
@@ -95,13 +95,14 @@ pub struct BreakpointEvent {
 }
 
 /// The reason for the event.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum BreakpointEventReason {
     Changed,
     New,
     Removed,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -167,7 +168,7 @@ pub struct BreakpointMode {
 }
 
 /// Describes one or more type of breakpoint a `BreakpointMode` applies to. This is a non-exhaustive enumeration and may expand as future breakpoint types are added.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum BreakpointModeApplicability {
@@ -179,6 +180,7 @@ pub enum BreakpointModeApplicability {
     Data,
     /// In `InstructionBreakpoint`s
     Instruction,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -336,7 +338,7 @@ pub struct Capabilities {
 /// Since the capabilities are dependent on the client and its UI, it might not be possible to change that at random times (or too late).
 /// Consequently this event has a hint characteristic: a client can only be expected to make a 'best effort' in honoring individual capabilities but there are no guarantees.
 /// Only changed capabilities need to be included, all other capabilities keep their values.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CapabilitiesEvent {
     /// The set of updated capabilities.
@@ -354,7 +356,7 @@ pub struct Checksum {
 }
 
 /// Names of checksum algorithms that may be supported by a debug adapter.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum ChecksumAlgorithm {
     #[serde(rename = "MD5")]
@@ -389,7 +391,7 @@ pub struct ColumnDescriptor {
 }
 
 /// Datatype of values in this column. Defaults to `string` if not specified.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum ColumnDescriptorType {
     String,
@@ -433,7 +435,7 @@ pub struct CompletionItem {
 }
 
 /// Some predefined types for the CompletionItem. Please note that not all clients have specific icons for all of them.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum CompletionItemType {
     Method,
@@ -508,7 +510,7 @@ pub struct ContinueResponse {
 /// The event indicates that the execution of the debuggee has continued.
 /// Please note: a debug adapter is not expected to send this event in response to a request that implies that execution continues, e.g. `launch` or `continue`.
 /// It is only necessary to send a `continued` event if there was no previous request that implied this.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ContinuedEvent {
     /// If omitted or set to `true`, this event signals to the client that all threads have been resumed. The value `false` indicates that not all threads were resumed.
@@ -537,7 +539,7 @@ pub struct DataBreakpoint {
 }
 
 /// This enumeration defines all possible access types for data breakpoints.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum DataBreakpointAccessType {
     Read,
@@ -659,11 +661,12 @@ pub struct DisassembledInstruction {
 /// A hint for how to present the instruction in the UI.
 ///
 /// A value of `invalid` may be used to indicate this instruction is 'filler' and cannot be reached by the program. For example, unreadable memory addresses may be presented is 'invalid.'
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum DisassembledInstructionPresentationHint {
     Normal,
     Invalid,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -726,7 +729,7 @@ pub struct EvaluateArguments {
 }
 
 /// The context in which the evaluate request is used.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum EvaluateArgumentsContext {
@@ -742,6 +745,7 @@ pub enum EvaluateArgumentsContext {
     Clipboard,
     /// evaluate is called from a variables view context.
     Variables,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -789,7 +793,7 @@ pub struct EvaluateResponse {
 /// always: always breaks,
 /// unhandled: breaks when exception unhandled,
 /// userUnhandled: breaks if the exception is not handled by user code.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum ExceptionBreakMode {
     Never,
@@ -908,7 +912,7 @@ pub struct ExceptionPathSegment {
 }
 
 /// The event indicates that the debuggee has exited and returns its exit code.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ExitedEvent {
     /// The exit code returned from the debuggee.
@@ -1048,12 +1052,13 @@ pub struct InitializeRequestArguments {
 }
 
 /// Determines in what format paths are specified. The default is `path`, which is the native format.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum InitializeRequestArgumentsPathFormat {
     Path,
     Uri,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -1084,7 +1089,7 @@ pub struct InstructionBreakpoint {
 }
 
 /// Logical areas that can be invalidated by the `invalidated` event.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum InvalidatedAreas {
@@ -1096,6 +1101,7 @@ pub enum InvalidatedAreas {
     Threads,
     /// Previously fetched variable data has become invalid and needs to be refetched.
     Variables,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -1103,7 +1109,7 @@ pub enum InvalidatedAreas {
 /// This event signals that some state in the debug adapter has changed and requires that the client needs to re-render the data snapshot previously requested.
 /// Debug adapters do not have to emit this event for runtime changes like stopped or thread events because in that case the client refetches the new state anyway. But the event can be used for example to refresh the UI after rendering formatting has changed in the debug adapter.
 /// This event should only be sent if the corresponding capability `supportsInvalidatedEvent` is true.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct InvalidatedEvent {
     /// Set of logical areas that got invalidated. This property has a hint characteristic: a client can only be expected to make a 'best effort' in honoring the areas but there are no guarantees. If this property is missing, empty, or if values are not understood, the client should assume a single value `all`.
@@ -1128,7 +1134,7 @@ pub struct LoadedSourceEvent {
 }
 
 /// The reason for the event.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum LoadedSourceEventReason {
     New,
@@ -1178,7 +1184,7 @@ pub struct LocationsResponse {
 /// This event indicates that some memory range has been updated. It should only be sent if the corresponding capability `supportsMemoryEvent` is true.
 /// Clients typically react to the event by re-issuing a `readMemory` request if they show the memory identified by the `memoryReference` and if the updated memory range overlaps the displayed range. Clients should not make assumptions how individual memory references relate to each other, so they should not assume that they are part of a single continuous address range and might overlap.
 /// Debug adapters can use this event to indicate that the contents of a memory range has changed due to some other request like `setVariable` or `setExpression`. Debug adapters are not expected to emit this event for each and every memory change of a running program, because that information is typically not available from debuggers and it would flood clients with too many events.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MemoryEvent {
     /// Number of bytes updated.
@@ -1266,7 +1272,7 @@ pub struct ModuleEvent {
 }
 
 /// The reason for the event.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum ModuleEventReason {
     New,
@@ -1312,7 +1318,7 @@ pub struct NextArguments {
 }
 
 /// The event indicates that the target has produced some output.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OutputEvent {
     /// The output category. If not specified or if the category is not understood by the client, `console` is assumed.
@@ -1350,7 +1356,7 @@ pub struct OutputEvent {
 }
 
 /// The output category. If not specified or if the category is not understood by the client, `console` is assumed.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum OutputEventCategory {
@@ -1364,12 +1370,13 @@ pub enum OutputEventCategory {
     Stderr,
     /// Send the output to telemetry instead of showing it to the user.
     Telemetry,
+    #[default]
     #[serde(other)]
     Unknown,
 }
 
 /// Support for keeping an output log organized by grouping related messages.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum OutputEventGroup {
     /// Start a new group in expanded mode. Subsequent output events are members of the group and should be shown indented.
@@ -1392,7 +1399,7 @@ pub struct PauseArguments {
 }
 
 /// The event indicates that the debugger has begun debugging a new process. Either one that it has launched, or one that it has attached to.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProcessEvent {
     /// If true, the process is running on the same computer as the debug adapter.
@@ -1412,7 +1419,7 @@ pub struct ProcessEvent {
 }
 
 /// Describes how the debug engine started debugging this process.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum ProcessEventStartMethod {
     /// Process was launched under the debugger.
@@ -1425,7 +1432,7 @@ pub enum ProcessEventStartMethod {
 
 /// The event signals the end of the progress reporting with a final message.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProgressEndEvent {
     /// More detailed progress message. If omitted, the previous message (if any) is used.
@@ -1438,7 +1445,7 @@ pub struct ProgressEndEvent {
 /// The event signals that a long running operation is about to start and provides additional information for the client to set up a corresponding progress and cancellation UI.
 /// The client is free to delay the showing of the UI in order to reduce flicker.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProgressStartEvent {
     /// If true, the request that reports progress may be cancelled with a `cancel` request.
@@ -1466,7 +1473,7 @@ pub struct ProgressStartEvent {
 /// The event signals that the progress reporting needs to be updated with a new message and/or percentage.
 /// The client does not have to update the UI immediately, but the clients needs to keep track of the message and/or percentage values.
 /// This event should only be sent if the corresponding capability `supportsProgressReporting` is true.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProgressUpdateEvent {
     /// More detailed progress message. If omitted, the previous message (if any) is used.
@@ -1550,7 +1557,7 @@ pub struct RunInTerminalRequestArguments {
 }
 
 /// What kind of terminal to launch. Defaults to `integrated` if not specified.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum RunInTerminalRequestArgumentsKind {
     Integrated,
@@ -1608,7 +1615,7 @@ pub struct Scope {
 }
 
 /// A hint for how to present this scope in the UI. If this attribute is missing, the scope is shown with a generic UI.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum ScopePresentationHint {
@@ -1620,6 +1627,7 @@ pub enum ScopePresentationHint {
     Registers,
     /// Scope contains one or more return values.
     ReturnValue,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -1894,12 +1902,13 @@ pub struct Source {
 
 /// A hint for how to present the source in the UI.
 /// A value of `deemphasize` can be used to indicate that the source is not available or that it is skipped on stepping.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum SourcePresentationHint {
     Normal,
     Emphasize,
     Deemphasize,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -1996,7 +2005,7 @@ pub struct StackFrame {
 
 /// A hint for how to present this frame in the UI.
 /// A value of `label` can be used to indicate that the frame is an artificial frame that is used as a visual label or separator. A value of `subtle` can be used to change the appearance of a frame in a 'subtle' way.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum StackFramePresentationHint {
     Normal,
@@ -2004,6 +2013,7 @@ pub enum StackFramePresentationHint {
     Subtle,
     #[serde(rename = "deemphasize")]
     Deemphasize,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -2079,7 +2089,7 @@ pub struct StartDebuggingRequestArguments {
 }
 
 /// Indicates whether the new debug session should be started with a `launch` or `attach` request.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum StartDebuggingRequestArgumentsRequest {
     Launch,
@@ -2170,7 +2180,7 @@ pub struct StepOutArguments {
 }
 
 /// The granularity of one 'step' in the stepping requests `next`, `stepIn`, `stepOut`, and `stepBack`.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum SteppingGranularity {
     /// The step should allow the program to run until the current statement has finished executing.
@@ -2185,7 +2195,7 @@ pub enum SteppingGranularity {
 
 /// The event indicates that the execution of the debuggee has stopped due to some condition.
 /// This can be caused by a breakpoint previously set, a stepping request has completed, by executing a debugger statement etc.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct StoppedEvent {
     /// If `allThreadsStopped` is true, a debug adapter can announce that all threads have stopped.
@@ -2218,7 +2228,7 @@ pub struct StoppedEvent {
 
 /// The reason for the event.
 /// For backward compatibility this string is shown in the UI if the `description` attribute is missing (but it must not be translated).
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum StoppedEventReason {
@@ -2234,6 +2244,7 @@ pub enum StoppedEventReason {
     DataBreakpoint,
     #[serde(rename = "instruction breakpoint")]
     InstructionBreakpoint,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -2257,7 +2268,7 @@ pub struct TerminateThreadsArguments {
 }
 
 /// The event indicates that debugging of the debuggee has terminated. This does **not** mean that the debuggee itself has exited.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TerminatedEvent {
     /// A debug adapter may set `restart` to true (or to an arbitrary object) to request that the client restarts the session.
@@ -2277,7 +2288,7 @@ pub struct Thread {
 }
 
 /// The event indicates that a thread has started or exited.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ThreadEvent {
     /// The reason for the event.
@@ -2287,12 +2298,13 @@ pub struct ThreadEvent {
 }
 
 /// The reason for the event.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum ThreadEventReason {
     Started,
     Exited,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -2389,7 +2401,7 @@ pub struct VariablePresentationHint {
     pub visibility: Option<VariablePresentationHintVisibility>,
 }
 
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum VariablePresentationHintAttributes {
@@ -2409,12 +2421,13 @@ pub enum VariablePresentationHintAttributes {
     HasSideEffects,
     /// Indicates that the object has its value tracked by a data breakpoint.
     HasDataBreakpoint,
+    #[default]
     #[serde(other)]
     Unknown,
 }
 
 /// The kind of variable. Before introducing additional values, try to use the listed values.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum VariablePresentationHintKind {
@@ -2440,12 +2453,13 @@ pub enum VariablePresentationHintKind {
     Virtual,
     /// Deprecated: Indicates that a data breakpoint is registered for the object. The `hasDataBreakpoint` attribute should generally be used instead.
     DataBreakpoint,
+    #[default]
     #[serde(other)]
     Unknown,
 }
 
 /// Visibility of variable. Before introducing additional values, try to use the listed values.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[non_exhaustive]
 #[serde(rename_all = "camelCase")]
 pub enum VariablePresentationHintVisibility {
@@ -2454,6 +2468,7 @@ pub enum VariablePresentationHintVisibility {
     Protected,
     Internal,
     Final,
+    #[default]
     #[serde(other)]
     Unknown,
 }
@@ -2482,7 +2497,7 @@ pub struct VariablesArguments {
 }
 
 /// Filter to limit the child variables to either named or indexed. If omitted, both types are fetched.
-#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub enum VariablesArgumentsFilter {
     Indexed,

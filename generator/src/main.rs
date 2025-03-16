@@ -71,7 +71,7 @@ const BLACKLISTED_TYPES: &[&str] = &[
     "AttachRequestArguments",
 ];
 
-const DERIVE_DEFAULT_TYPES: &[&str] = &["InitializeRequestArguments", "Capabilities", "Source"];
+const DERIVE_DEFAULT_TYPES: &[&str] = &["InitializeRequestArguments", "Capabilities", "Source", "Breakpoint"];
 
 fn write_requests(types: &[ProtocolType]) -> String {
     let mut writer = Writer::default();
@@ -365,7 +365,11 @@ fn translate_type(defs: &Map<String, Value>, t: &Value) -> Type {
 }
 
 fn can_derive_default(ty: &str) -> bool {
-    (ty.ends_with("Response") && ty != "ExceptionInfoResponse") || DERIVE_DEFAULT_TYPES.contains(&ty)
+    const NOT_DEFAULT_EVENT_TYPES: &[&str] = &["LoadedSourceEvent", "ModuleEvent"];
+
+    (ty.ends_with("Response") && ty != "ExceptionInfoResponse")
+        || (ty.ends_with("Event") && !NOT_DEFAULT_EVENT_TYPES.contains(&ty))
+        || DERIVE_DEFAULT_TYPES.contains(&ty)
 }
 
 fn is_any(t: &Value) -> bool {
@@ -630,11 +634,17 @@ impl Enum {
         if let Some(doc) = &self.doc {
             dst.doc(doc);
         }
-        if self.exhaustive {
-            dst.line("#[derive(PartialEq, Eq, Debug, Hash, Clone, Copy, Deserialize, Serialize)]");
-        } else {
-            dst.line("#[derive(PartialEq, Eq, Debug, Hash, Clone, Deserialize, Serialize)]");
-        }
+
+        let default_unknown = !self.exhaustive || name.ends_with("PresentationHint");
+        let can_copy = self.exhaustive;
+
+        dst.line(match (default_unknown, can_copy) {
+            (true, true) => "#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]",
+            (true, false) => "#[derive(Default, Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]",
+            (false, true) => "#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]",
+            (false, false) => "#[derive(Debug, Clone, PartialEq, Eq, Hash, Deserialize, Serialize)]",
+        });
+
         if !self.exhaustive {
             dst.line("#[non_exhaustive]");
         }
@@ -657,7 +667,8 @@ impl Enum {
             dst.indented("#[serde(rename = \"deemphasize\")]");
             dst.indented("Deemphasize,");
         }
-        if !self.exhaustive || name.ends_with("PresentationHint") {
+        if default_unknown {
+            dst.indented("#[default]");
             dst.indented("#[serde(other)]");
             dst.indented("Unknown,");
         }
