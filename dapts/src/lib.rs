@@ -92,7 +92,7 @@ pub struct Response {
     pub message: Option<String>,
     /// Contains request result if success is true and error details if success
     /// is false.
-    #[serde(flatten, skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub body: Option<serde_json::Value>,
 }
 
